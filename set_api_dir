@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Sets up the api directory
+mkdir -p api/v1/views;
+
+touch api/__init__.py;
+touch api/v1/app.py;
+touch api/v1/__init__.py;
+
+touch api/v1/views/__init__.py;
+touch api/v1/views/interns.py;
+touch api/v1/views/schools.py;
+touch api/v1/views/companies.py;
+touch api/v1/views/companies_interns.py;
+
+find ./ -type f -name '*.py' -exec chmod +x \{\} \;

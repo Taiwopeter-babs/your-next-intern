@@ -1,0 +1,40 @@
+{
+    "BaseModel.02bb23a8-0cf4-43dc-828f-6f258445698e": {
+        "id": "02bb23a8-0cf4-43dc-828f-6f258445698e",
+        "created_at": "2023-04-19T13:05:47",
+        "updated_at": "2023-04-19T13:05:47",
+        "first_name": "Kay",
+        "last_name": "Paul",
+        "__class__": "BaseModel"
+    },
+    "Intern.daafd190-e852-4c06-93ca-90a61f82a72c": {
+        "id": "daafd190-e852-4c06-93ca-90a61f82a72c",
+        "created_at": "2023-04-19T13:05:47",
+        "updated_at": "2023-04-19T13:05:47",
+        "__class__": "Intern"
+    },
+    "Company.178c309e-f44e-4ac9-8793-b7edeaf1cef2": {
+        "id": "178c309e-f44e-4ac9-8793-b7edeaf1cef2",
+        "created_at": "2023-04-19T13:32:30",
+        "updated_at": "2023-04-19T13:32:30",
+        "__class__": "Company"
+    },
+    "Intern.531f56ea-39af-4783-943d-76a9ed3945d9": {
+        "id": "531f56ea-39af-4783-943d-76a9ed3945d9",
+        "created_at": "2023-04-19T19:49:16",
+        "updated_at": "2023-04-19T19:49:16",
+        "first_name": "Taiwo",
+        "last_name": "Peter",
+        "email": "babalolataiwop@gmail.com",
+        "__class__": "Intern"
+    },
+    "Intern.d2c8f8ba-164e-4bc5-9679-d53faeb20553": {
+        "first_name": "Taiwo",
+        "last_name": "Peter",
+        "password": "mypass123",
+        "created_at": "2023-05-02T12:50:44",
+        "updated_at": "2023-05-02T12:50:44",
+        "id": "d2c8f8ba-164e-4bc5-9679-d53faeb20553",
+        "__class__": "Intern"
+    }
+}

@@ -1,0 +1,74 @@
+/* =========== HEADER ============*/
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 3.5rem;
+    width: 100%;
+    border: 1px solid black;
+    /* padding-left: 20px; */
+}
+
+/* The website text logo */
+.site-logo {
+    padding: 10px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.3rem;
+    color: whitesmoke;
+    /* border: 1px solid black; */
+}
+
+/* Main navigation links */
+.nav-bar {
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+}
+
+ul.nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.nav-links a {
+    font-size: 1em;
+    text-decoration: none;
+    text-align: center;
+    align-self: center;
+    padding: 15px 15px;
+    color: #E8ECF1;
+    display: inline-flex;
+}
+
+.navigation a:link {
+    text-decoration: none;
+}
+
+.navigation a:hover {
+    background-color: #030925;
+}
+
+.logo {
+    /* text-align: center; */
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.logo:hover {
+    /* background-color: #142921; */
+    color: #E8ECF1;
+}
+
+/** ====== Registration and Sign-in buttons ===== **/
+.drop-item {
+    color: #030925;
+}
+
+.drop-button,
+.drop-item:hover {
+    color: white;
+}
