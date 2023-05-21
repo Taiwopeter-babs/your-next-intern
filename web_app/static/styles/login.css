@@ -4,8 +4,8 @@
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    border: 1px soild black;
-    margin: 3rem;
+    /* border: 1px soild black; */
+    margin: 2rem;
 }
 
 /** SECTION HEAD **/
@@ -24,20 +24,18 @@ section.login-form {
     margin: 0 auto;
     padding: 2rem;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     color: antiquewhite;
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 1px solid black;
 }
 
 .login-form div {
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-
+    margin: .7rem auto;
+    margin-bottom: 1rem;
 }
 
 label {
@@ -51,8 +49,16 @@ label {
 }
 
 /** submit button **/
-.submit-btn {
+#btn-container {
     width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.submit-btn {
+    width: 50%;
     margin: 0 auto;
     text-align: center;
     background-color: #0c304d;
@@ -66,4 +72,30 @@ label {
 .submit-btn:hover {
     background-color: #cacfd4;
     color: #0f1922;
+}
+
+/*================ FORM validation ============*/
+
+input.invalid {
+    border: 3px solid red;
+}
+
+input.valid {
+    border: 3px solid green;
+}
+
+/*============= MOBILE PHONES =====*/
+@media only screen and (max-width: 768px) {
+
+    .main-body-container {
+        margin: 1rem;
+    }
+
+    section.login-form {
+        width: 100%;
+    }
+
+    form div:nth-child(2) {
+        margin-bottom: 2rem;
+    }
 }

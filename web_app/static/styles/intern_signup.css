@@ -46,19 +46,39 @@ hr {
 }
 
 /** submit button **/
-.submit-btn {
+#btn-container {
     width: 100%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.submit-btn {
+    width: 50%;
+    margin: 0 auto;
     text-align: center;
-    background-color: #0c304d;
+    background: #0c304d;
     border: none;
     color: white;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.3rem;
     cursor: pointer;
+    /* align-self: center; */
 }
 
 .submit-btn:hover {
     background-color: #cacfd4;
     color: #0f1922;
+}
+
+/** ===== Form validation */
+input.invalid,
+datalist.invalid {
+    border: 3px solid red;
+}
+
+input.valid,
+datalist.valid {
+    border: 3px solid green;
 }

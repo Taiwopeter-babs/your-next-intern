@@ -23,7 +23,7 @@
 		<!--LINKS-->
 		<nav class="nav-bar navbar navbar-expand-lg navbar-expand-md fixed-top">
 			<div class="container-fluid">
-				<a class="navbar-brand logo" href="./index.html">YNI</a>
+				<a class="navbar-brand logo" href="{{ url_for('app_auth.go_home') }}">YNI</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsiblenav"
 					aria-controls="collapsiblenav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -35,17 +35,12 @@
 						<li class="nav-item"><a href="">Companies</a></li>
 						<li class="nav-item"><a href="">Blog</a></li>
 						<li class="nav-item"><a href="">YNI Stories</a></li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle drop-button" href="#" role="button"
-								data-bs-toggle="dropdown" aria-expanded="false">
-								Register
-							</a>
-							<ul class="btn btn-secondary dropdown-menu dropdown-menu-dark">
-								<li><a class="dropdown-item drop-item" href="./intern_signup.html">Intern</a></li>
-								<li><a class="dropdown-item drop-item" href="./org_signup.html">Company</a></li>
-							</ul>
-						</li>
-						<li class="nav-item"><a href=""> Sign In</a></li>
+
+						<li class="nav-item"><a href="{{ url_for('app_auth.logout') }}"> Logout</a></li>
+						<li class="nav-item"><a
+								href="{{ url_for('app_views.intern_profile',  intern_id=current_user.id) }}">
+								Profile</a></li>
+
 					</ul>
 				</div>
 
@@ -60,16 +55,17 @@
 
 			<article class="intern-data">
 				<div>
-					<h3>Taiwo Babalola</h3>
+					<h3>{{ current_user.first_name }} {{ current_user.last_name }}</h3>
 				</div>
 				<div>
-					<p><strong>Studies</strong>: Chemistry</p>
+					<p><strong>Studies</strong>: {{ current_user.course }}</p>
 				</div>
 				<div>
-					<p><strong>@</strong>: OAU</p>
+					<p><strong>@</strong>: {{ current_user.school }}</p>
 				</div>
-				<div>
-					<span>email: test@gmail.com</span><span>phone: hshajaja</span>
+				<div id="intern-contact">
+					<span><strong> email: </strong>{{ current_user.email }}</span><span><strong>phone:
+						</strong>{{current_user. phone}}</span>
 				</div>
 			</article>
 		</section>
