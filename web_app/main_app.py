@@ -1,18 +1,23 @@
 """ create the authentication blueprint """
+from web_app.config import Config
 from flask import Flask
 from flask_login import LoginManager
-
 from web_app.auth import app_auth
 from web_app.views import app_views
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-app.secret_key = 'yni_secret_key'
 
-# blueprints
+# load the application configuration from
+app.config.from_object(Config)
+
+# Register blueprints
 app.register_blueprint(app_auth)
 app.register_blueprint(app_views)
 
+""" Protection for the routes/endpoints which are only
+accessed by authenticated users
+"""
 login_manager = LoginManager()
 login_manager.login_view = "app_auth.login"
 login_manager.session_protection = 'strong'
@@ -25,7 +30,7 @@ def load_user(user_id):
     from models import storage
     return storage.get_user_by_id(user_id)
 
-
+# close session on exit of application or error 
 def close_db(error):
     """Remove the current SQLAlchemy Session"""
     from models import storage
