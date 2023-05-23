@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """This module defines the Company class"""
 from datetime import date
+from flask_login import UserMixin
+import hashlib
 import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, Table, DATE
@@ -33,7 +35,7 @@ if models.storage_type == "db":
     )
 
 
-class Company(BaseModel, Base):
+class Company(BaseModel, Base, UserMixin):
     """This class maps to the companies table in the database"""
 
     if models.storage_type == "db":
@@ -45,6 +47,7 @@ class Company(BaseModel, Base):
         specialization = Column(String(256), nullable=False)
         available_slots = Column(Integer, default=0)
         email = Column(String(128), nullable=False, unique=True)
+        password =  Column(String(256), nullable=False, unique=True)
         website = Column(String(256), nullable=False, unique=True)
         interns = relationship(
             "Intern", secondary="company_intern", back_populates="companies", viewonly=False
@@ -54,6 +57,11 @@ class Company(BaseModel, Base):
         """Initializes the class"""
         super().__init__(*args, **kwargs)
 
+    def validate_password(self, input_password):
+        """ Validates an Intern paswword """
+        hashed = hashlib.sha256(input_password.encode('utf-8')).hexdigest()
+        return (hashed == self.password)
+
     if models.storage_type != "db":
         @property
         def interns(self):
@@ -61,7 +69,7 @@ class Company(BaseModel, Base):
             the company
             """
             all_interns = models.storage.all("Intern").values()
-            
+
             intern_list = [intern for intern in all_interns
                            if intern.company_id == self.id]
             return intern_list

@@ -117,13 +117,18 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
 
         # creates a session factory
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
 
     def close():
         """closes the current database session"""
         self.__session.close()
+    
+    def rollback_session():
+        """ rollback session """
+        self.__session.rollback()
 
     def get(self, cls, id):
         """Returns the object of the class name and id specified.
@@ -136,9 +141,8 @@ class DBStorage:
         if cls and id:
             if type(cls) is str:
                 cls = classes.get(cls)
-            obj_key = "{}.{}".format(cls.__name__, id)
-            cls_obj = self.all(cls).get(obj_key)
-            return cls_obj
+            user = self.__session.query(cls).filter_by(id=id).first()
+            return user
         return None
 
     def count(self, cls=None) -> int:
@@ -156,9 +160,9 @@ class DBStorage:
         Object. A list of tuples which contain the company applied to,
         and date e.g [(company_obj1, datetime.date(2023-05-15)),
         (company_obj2, datetime.date(2023-06-15))].
-        
+
         These list of tuples will have the date added to the dictionary of the
-        company, and then
+        company
         """
         list_companies = []
 
@@ -178,9 +182,41 @@ class DBStorage:
                 list_companies.append(company_dict)
 
             return list_companies
-    
-    def get_user(self, cls_name, email):
+
+    def get_user_by_email(self, cls_name, email: str):
         """ Get a user by email """
         if type(cls_name) is str:
             cls_name = classes.get(cls_name)
-        query = self.session.query(cls_name).filter_by(email=email).first()
+        user = self.__session.query(cls_name).filter_by(email=email).first()
+        if user:
+            return user
+        return None
+    
+    def get_user_id(self, cls_name, user_id: str):
+        """ Get a user id """
+        if type(cls_name) is str:
+            cls_name = classes.get(cls_name)
+        user = self.__session.query(cls_name).filter_by(id=user_id).first()
+        if user:
+            return user.id
+        return None
+
+    def get_user_by_id(self, user_id: str):
+        """ Get a user by id """
+        all_objs = self.all()
+
+        for obj in all_objs:
+            if user_id == obj.split(".")[1]:
+                return all_objs.get(obj)
+        return None
+    
+    def get_school_id(self, sch_name: str) -> str:
+        """ Returns the school id of school_name from the database storage."""
+        
+        stmt = select(School.id).where(School.name == sch_name)
+        sch_id = self.__session.scalars(stmt).all()
+
+        if sch_id:
+            return sch_id[0]
+        else:
+            return None

@@ -52,7 +52,8 @@ class BaseModel:
             if kwargs.get("id") is None:
                 self.id = str(uuid.uuid4())
             if kwargs.get("password"):
-                self.password = hashlib.sha256(kwargs["password"].encode('utf-8')).hexdigest()
+                self.password = hashlib.sha256(
+                    kwargs["password"].encode('utf-8')).hexdigest()
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
