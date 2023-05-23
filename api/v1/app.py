@@ -4,17 +4,22 @@ and registers blueprints for diffrent API routes
 """
 from api.v1.views import app_views
 from flask import Flask, jsonify, make_response
+from flask_cors import CORS
 from models import storage
 import os
 
 
 app = Flask(__name__)
 
+
 # disable strict slashes in routes
 app.url_map.strict_slashes = False
 
 # register blueprints
 app.register_blueprint(app_views)
+
+# Enable cross-origin-resource sharing
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 def close_db_connection(error):
