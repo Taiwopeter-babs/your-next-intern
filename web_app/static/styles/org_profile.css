@@ -1,0 +1,46 @@
+@font-face {
+    font-family: 'Poltawski Nowy';
+    /* font-family: 'PT Sans', sans-serif; */
+    src: url("../fonts/PoltawskiNowy-SemiBold.ttf");
+}
+
+section.company-details {
+    width: 100%;
+    margin: 2rem;
+    max-width: 1000px;
+    height: 15rem;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    /* border: 1px solid black; */
+    font-family: 'Poltawski Nowy';
+}
+
+.company-details article {
+    height: 100%;
+    width: 40%;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    font-size: 1rem;
+}
+
+.toggle-buttons {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+/* ======= Company's interns ========*/
+section.interns {
+    width: 100%;
+    margin: 2rem;
+    max-width: 1000px;
+    height: 15rem;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    /* border: 1px solid black; */
+    font-family: 'Poltawski Nowy';
+}
