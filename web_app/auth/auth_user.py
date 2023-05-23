@@ -4,15 +4,26 @@ from datetime import date
 from flask import render_template, url_for, render_template, redirect, request, make_response, flash, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from models.intern import Intern
+from models.company import Company
 import re
 from web_app.auth import app_auth
+from werkzeug.exceptions import HTTPException
+
 
 # email regex pattern
 pattern = '[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'
 
 @app_auth.route("/")
 def go_home():
-    return render_template("index.html", user=current_user)
+    # choose which route to direct the intern to depending
+    # on the class name - see index.html
+    if current_user.is_authenticated:
+        from models import storage
+        user = storage.get_user_by_id(current_user.id)
+        user_class = user.to_dict()['__class__']
+        return render_template("index.html", user_class=user_class)
+
+    return render_template("index.html")
 
 
 @app_auth.route("/login", methods=['GET', 'POST'])
@@ -34,7 +45,9 @@ def login():
                 next = request.args.get('next')
                 if next is None or not next.startswith('/'):
                     next = url_for('app_auth.go_home')
+                flash('Login successful', category='success')
                 return redirect(next)
+                flash('Login successful', category='success')
             else:
                 flash('Incorrect email or password', category='error')
                 return redirect(url_for('app_auth.login'))
@@ -78,14 +91,17 @@ def intern_signup():
 
     if request.method == 'POST':
         first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
+        specialization = request.form.get('specialization')
         gender = request.form.get('gender')
-        birthday = request.form.get('birthday')
+        available_slots = request.form.get('available_slots')
         school = request.form.get('school')
         course = request.form.get('course')
         address = request.form.get('address')
         phone = request.form.get('phone')
         preferred_organization = request.form.get('preferred_organzation')
+        email = request.form.get('email')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
 
         school_id = storage.get_school_id(school)
         if school_id:
@@ -95,8 +111,12 @@ def intern_signup():
             flash('Please choose a school', category='error')
             return render_template('intern_signup.html', schools=schools)
 
-            
-        email = request.form.get('email')
+        # check if the email is already in use     
+        check_exists_email = storage.get_user_by_email(Intern, email)
+        if check_exists_email:
+            flash('Email already in use', category='error')
+            return render_template('intern_signup.html', schools=schools)
+
         email_match = re.search(pattern, email)
         if not email_match:
             storage.rollback_session()
@@ -112,8 +132,7 @@ def intern_signup():
             flash('Phone must follow the pattern in the input form')
             return render_template('intern_signup.html', schools=schools)
         
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
+        
         if len(password1) < 8:
             flash('Password too short', category='error')
             return render_template('intern_signup.html', schools=schools)
@@ -122,20 +141,74 @@ def intern_signup():
             flash('passwords do not match', category='error')
             return render_template('intern_signup.html', schools=schools)
         
-        data = {'first_name': first_name, 'last_name': last_name, 'gender': gender,
-                'birthday': date.fromisoformat(birthday), 'school': school,
+        data = {'first_name': first_name, 'specialization': specialization, 'gender': gender,
+                'available_slots': date.fromisoformat(available_slots), 'school': school,
                 'course': course, 'address': address, 'phone': phone,
                 ' preferred_organization': preferred_organization,
                 'email': email, 'password': password1, 'school_id': sch_id}
         
         intern = Intern(**data)
         try:
-            intern.save()
+            intern.save()     
+        except HTTPException:
             storage.rollback_session()
-        except:
             flash('Please fill all required fields', category='error')
+            return render_template('intern_signup.html', schools=schools)
 
         flash('Registration successful! Please login.', category='success')
         return redirect(url_for('app_auth.login'))
         
     return render_template('intern_signup.html', schools=schools)
+
+
+@app_auth.route("/org_signup", methods=['GET', 'POST'])
+def org_signup():
+    """ Company registration endpoint """
+    from models import storage
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        specialization = request.form.get('specialization')
+        email = request.form.get('email')
+        available_slots = request.form.get('available_slots')
+        address = request.form.get('address')
+        website = request.form.get('website')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+
+        check_exists_email = storage.get_user_by_email(Company, email)
+        if check_exists_email:
+            flash('Email already in use', category='error')
+            return render_template('org_signup.html')
+        email_match = re.search(pattern, email)
+        if not email_match:
+            storage.rollback_session()
+            flash('Email must follow this pattern \'example@something.com\'',
+                  category='error')
+            return render_template('org_signup.html')
+        
+        
+        if len(password1) < 8:
+            flash('Password too short', category='error')
+            return render_template('org_signup.html')
+        if password1 != password2:
+            storage.rollback_session()
+            flash('passwords do not match', category='error')
+            return render_template('org_signup.html')
+        
+        data = {'name': name, 'specialization': specialization,
+                'available_slots': available_slots, 'address': address,
+                'email': email, 'password': password1, 'website': website}
+        
+        company = Company(**data)
+        try:
+            company.save()
+        except HTTPException:
+            flash('Please fill all required fields', category='error')
+            storage.rollback_session()
+            return render_template('org_signup.html')
+
+        flash('Registration successful! Please login.', category='success')
+        return redirect(url_for('app_auth.login'))
+        
+    return render_template('org_signup.html')
