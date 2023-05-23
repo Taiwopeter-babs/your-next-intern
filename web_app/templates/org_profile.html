@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="Your Next Intern"
+		content="Your Next Intern is a web application built to aid the search for interns and internship by companies and students respectively">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="../static/styles/index.css">
+	<link rel="stylesheet" href="../static/styles/common.css">
+	<link rel="stylesheet" href="../static/styles/header.css">
+	<link rel="stylesheet" href="../static/styles/org_profile.css">
+	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<title>Your Next Intern</title>
+</head>
+
+<body>
+	<!-- HEADER -->
+	<header class="header">
+
+		<!--LINKS-->
+		<nav class="nav-bar navbar navbar-expand-lg navbar-expand-md fixed-top">
+			<div class="container-fluid">
+				<a class="navbar-brand logo" href="{{ url_for('app_auth.go_home') }}">YNI</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsiblenav"
+					aria-controls="collapsiblenav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
+					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a href="index.html">About YNI</a></li>
+						<li class="nav-item"><a href="./intern_profile.html">Interns</a></li>
+						<li class="nav-item"><a href="">Companies</a></li>
+						<li class="nav-item"><a href="">Blog</a></li>
+						<li class="nav-item"><a href="">YNI Stories</a></li>
+
+						<li class="nav-item"><a href="{{ url_for('app_auth.logout') }}"> Logout</a></li>
+						<li class="nav-item"><a
+								href="{{ url_for('app_views.company_profile',  company_id=current_user.id) }}">
+								Profile</a></li>
+
+					</ul>
+				</div>
+
+			</div>
+
+		</nav>
+	</header>
+	<!-- Main Body -->
+
+	<div class="body-container">
+
+		<section class="company-details">
+			<article>
+				<div>{{ current_user.name }}</div>
+				<div>{{ current_user.specialization }}</div>
+				<div>{{ current_user.website }}</div>
+				<div>{{ current_user.email }}</div>
+			</article>
+			<article class="company-interact">
+				<div>{{ current_user.available_slots }}</div>
+				<div class="toggle-buttons">
+					<button type="button" class="btn btn-outline-secondary">Show applicants</button>
+					<button type="button" class="btn btn-outline-success">Show selected interns</button>
+				</div>
+			</article>
+		</section>
+		<section class="interns">
+			<div class="table-responsive">
+				<table class="table table-hover table-bordered">
+					<caption>List of Interns</caption>
+					<thead class="table-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">First Name</th>
+							<th scope="col">Last Name</th>
+							<th scope="col">Course</th>
+							<th scope="col">School</th>
+							<th scope="col">Email</th>
+							<th scope="col">select</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>Political Science</td>
+							<td>{{ current_user.specialization }}</td>
+							<td>precious@email.com</td>
+							<td>
+								<input type="checkbox" data-id="{{ current_user.id }}">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>Jacob</td>
+							<td>Thornton</td>
+							<td>Political Science</td>
+							<td>{{ current_user.specialization }}</td>
+							<td>precious@email.com</td>
+							<td><input type="checkbox" data-id="{{ current_user.id }}"></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+		</section>
+
+	</div>
+
+	<!-- <footer class="footer"></footer> -->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+		integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -32,15 +32,24 @@
 				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
 					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="./intern_profile.html">Interns</a></li>
-						<li class="nav-item"><a href="">Companies</a></li>
+
+						<li class="nav-item"><a href="{{ url_for('app_views.all_companies') }}">Companies</a></li>
 						<li class="nav-item"><a href="">Blog</a></li>
 						<li class="nav-item"><a href="">YNI Stories</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_views.all_interns') }}">Interns</a></li>
+
 						{% if current_user.is_authenticated %}
 						<li class="nav-item"><a href="{{ url_for('app_auth.logout') }}"> Logout</a></li>
+						{% if user_class == 'Intern' %}
+
 						<li class="nav-item"><a
 								href="{{ url_for('app_views.intern_profile',  intern_id=current_user.id, _external=True) }}">
 								Profile</a></li>
+						{% elif user_class == 'Company' %}
+						<li class="nav-item"><a
+								href="{{ url_for('app_views.company_profile',  company_id=current_user.id, _external=True) }}">
+								Profile</a></li>
+						{%endif%}
 						{% else %}
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle drop-button" href="#" role="button"
@@ -50,7 +59,8 @@
 							<ul class="btn btn-secondary dropdown-menu dropdown-menu-dark">
 								<li><a class="dropdown-item drop-item"
 										href="{{ url_for('app_auth.intern_signup') }}">Intern</a></li>
-								<li><a class="dropdown-item drop-item" href="./org_signup.html">Company</a></li>
+								<li><a class="dropdown-item drop-item"
+										href="{{ url_for('app_auth.org_signup') }}">Company</a></li>
 							</ul>
 						</li>
 						<li class="nav-item"><a href="{{ url_for('app_auth.login') }}"> Sign In</a></li>
