@@ -3,7 +3,8 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
-
+from werkzeug.exceptions import HTTPException
+from sqlalchemy import exc
 
 
 @app_views.route("/interns", methods=['GET', 'POST'])
@@ -21,14 +22,19 @@ def get_all_interns():
 def get_intern(intern_id):
     """Retrieves a single Intern object
     """
-    intern_obj = storage.get("Intern", intern_id)
+    try:
+        intern_obj = storage.get("Intern", intern_id)
 
-    if intern_obj:
-        if request.method == 'GET':
+        if intern_obj:
             ret_dict = {}
             int_dict = intern_obj.to_dict()
             com_list = [obj.to_dict() for obj in intern_obj.companies]
             int_dict["companies"] = com_list
             return make_response(jsonify(int_dict), 200)
-    abort(404)
+        abort(404)
 
+    except exc.SQLAlchemyError:
+        storage.rollback_session()
+        return make_response(jsonify('Request Timeout'), 408)
+
+    
