@@ -9,11 +9,12 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-	<link rel="stylesheet" href="../static/styles/index.css">
+	<!-- <link rel="stylesheet" href="../static/styles/index.css"> -->
 	<link rel="stylesheet" href="../static/styles/common.css">
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/intern_profile.css">
 	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script defer src="../static/scripts/intern_companies.js"></script>
 	<title>Your Next Intern</title>
 </head>
 
@@ -32,7 +33,7 @@
 				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
 					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="./intern_profile.html">Interns</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_views.all_interns') }}">Interns</a></li>
 						<li class="nav-item"><a href="{{ url_for('app_views.all_companies')}}">Companies</a></li>
 						<li class="nav-item"><a href="">Blog</a></li>
 						<li class="nav-item"><a href="">YNI Stories</a></li>
@@ -52,7 +53,7 @@
 	<!-- Main Body -->
 
 	<div class="body-container">
-		<section class="intern-detail">
+		<section data-id="{{ current_user.id }}" class="intern-detail">
 
 			<article class="intern-data">
 				<div>
@@ -81,91 +82,7 @@
 				<h3>Companies You have applied to</h3>
 			</div>
 			<section class="companies-list">
-				<article class="company">
-					<div>
-						<h4>Company name</h4>
-					</div>
-					<div>
-						<p>Specialization</p>
-					</div>
-					<div>
-						<p>Website</p>
-					</div>
-					<div>
-						<div>
-							Applied: Date applied
-						</div>
-						<div class="status"></div>
-					</div>
-				</article>
-				<article class="company">
-					<div>
-						<h4>Company name</h4>
-					</div>
-					<div>
-						<p>Specialization</p>
-					</div>
-					<div>
-						<p>Website</p>
-					</div>
-					<div>
-						<div>
-							Applied: Date applied
-						</div>
-						<div class="status"></div>
-					</div>
-				</article>
-				<article class="company">
-					<div>
-						<h4>Company name</h4>
-					</div>
-					<div>
-						<p>Specialization</p>
-					</div>
-					<div>
-						<p>Website</p>
-					</div>
-					<div>
-						<div>
-							Applied: Date applied
-						</div>
-						<div class="status"></div>
-					</div>
-				</article>
-				<article class="company">
-					<div>
-						<h4>Company name</h4>
-					</div>
-					<div>
-						<p>Specialization</p>
-					</div>
-					<div>
-						<p>Website</p>
-					</div>
-					<div>
-						<div>
-							Applied: Date applied
-						</div>
-						<div class="status"></div>
-					</div>
-				</article>
-				<article class="company">
-					<div>
-						<h4>Company name</h4>
-					</div>
-					<div>
-						<p>Specialization</p>
-					</div>
-					<div>
-						<p>Website</p>
-					</div>
-					<div>
-						<div>
-							Applied: Date applied
-						</div>
-						<div class="status"></div>
-					</div>
-				</article>
+
 			</section>
 		</div>
 

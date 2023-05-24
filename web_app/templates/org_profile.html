@@ -31,8 +31,8 @@
 				</button>
 				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
 					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="./intern_profile.html">Interns</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_auth.go_home') }}">About YNI</a></li>
+						<!-- <li class="nav-item"><a href="{{ url_for('app_views.all_interns') }}">Interns</a></li> -->
 						<li class="nav-item"><a href="">Companies</a></li>
 						<li class="nav-item"><a href="">Blog</a></li>
 						<li class="nav-item"><a href="">YNI Stories</a></li>
@@ -84,26 +84,20 @@
 						</tr>
 					</thead>
 					<tbody>
+						{% set counter = 1 -%}
+						{% for intern in com_interns %}
 						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>Political Science</td>
-							<td>{{ current_user.specialization }}</td>
-							<td>precious@email.com</td>
+							<th scope="row">{{ counter + loop.index0 }}</th>
+							<td>{{ intern.first_name }}</td>
+							<td>{{ intern.last_name }}</td>
+							<td>{{ intern.course }}</td>
+							<td>{{ intern.school }}</td>
+							<td>{{ intern.email }}</td>
 							<td>
-								<input type="checkbox" data-id="{{ current_user.id }}">
+								<input type="checkbox" data-id="{{ intern.id }}">
 							</td>
 						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>Political Science</td>
-							<td>{{ current_user.specialization }}</td>
-							<td>precious@email.com</td>
-							<td><input type="checkbox" data-id="{{ current_user.id }}"></td>
-						</tr>
+						{% endfor %}
 
 					</tbody>
 				</table>
