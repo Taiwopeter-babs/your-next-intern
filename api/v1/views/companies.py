@@ -3,7 +3,8 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
-
+from werkzeug.exceptions import HTTPException
+from sqlalchemy import exc
 
 
 @app_views.route('/companies/<company_id>', methods=['GET'])
@@ -26,18 +27,26 @@ def link_intern_with_company(company_id, intern_id):
     if status code == 200, intern already applid to the company,
     otherwise status code == 201 and intern is just added.
     """
-    intern_obj = storage.get("Intern", intern_id)
-    
-    if not intern_obj:
-        abort(404)
-    com_obj = storage.get("Company", company_id)
-    if not com_obj:
-        abort(404)
+    try:
+        intern_obj = storage.get("Intern", intern_id)
+        com_obj = storage.get("Company", company_id)
 
+        if not intern_obj:
+        abort(404)
     
-    if intern_obj in com_obj.interns:
-        return make_response(jsonify(intern_obj.to_dict()), 200)
+        if not com_obj:
+            abort(404)
+  
+        if intern_obj in com_obj.interns:
+            return make_response(jsonify(intern_obj.to_dict()), 200)
     
-    com_obj.interns.append(intern_obj)
-    storage.save()
-    return make_response(jsonify(intern_obj.to_dict()), 201)
+        com_obj.interns.append(intern_obj)
+        storage.save()
+        return make_response(jsonify(intern_obj.to_dict()), 201)
+        
+    except exc.SQLAlchemyError:
+        storage.rollback_session()
+        return make_response(jsonify('Request timeout'), 408)
+    
+    
+
