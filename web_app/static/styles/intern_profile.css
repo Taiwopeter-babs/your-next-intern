@@ -70,6 +70,8 @@
     justify-content: center;
     align-items: center;
     font-family: 'Poltawski Nowy';
+    width: 100%;
+    /* border: 1px solid black; */
 }
 
 .companies-head h3 {
@@ -84,7 +86,7 @@
     justify-content: space-around;
     align-items: center;
     height: 100%;
-    max-width: 90%;
+    width: 90%;
     /* border: 1px solid black; */
 }
 
@@ -95,7 +97,9 @@
 }
 
 .company {
+    /* width: 100%; */
     flex: 0 0 30%;
+    /* border: 1px solid black; */
 }
 
 .company {
@@ -106,8 +110,6 @@
     /* align-items: center; */
     background: linear-gradient(60deg, #5d6e81 0%, #485563 100%);
     color: antiquewhite;
-    /* color: black; */
-    /* background: rgb(198, 186, 171); */
 }
 
 .company>div {
@@ -116,12 +118,13 @@
     border-radius: 5px;
 }
 
-.company div:last-child {
+.company div.com-date-status {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
+    /* border: 1px solid black; */
 
 }
 
@@ -211,7 +214,7 @@ article.company:hover {
         margin: .5rem;
     }
 
-    .company div:last-child>div {
+    .company>div.com-date-status div {
         font-size: .7rem;
         /* border: 1px solid black; */
     }
