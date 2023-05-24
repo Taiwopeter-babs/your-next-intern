@@ -159,6 +159,12 @@ body {
 	display: block;
 }
 
+.alert {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
 /** FOOTER **/
 .footer {
 	display: flex;

@@ -7,12 +7,13 @@
 .body-container {
     width: 100%;
     /* max-width: 1000px; */
-    height: 20rem;
+    height: 30rem;
     display: flex;
     flex-flow: column;
     justify-content: space-around;
     align-items: center;
     font-family: 'Poltawski Nowy';
+    /* border: 1px solid black; */
 }
 
 h3 {
@@ -23,6 +24,7 @@ h3 {
 /* ======= Company's interns ========*/
 section.companies {
     width: 100%;
+    max-width: -moz-fit-content;
     max-width: fit-content;
     margin: 10px auto;
     /* border: 1px solid black; */
@@ -74,4 +76,8 @@ span.course-item {
     display: flex;
     flex-flow: row;
     justify-content: space-evenly;
+}
+
+.closed-application {
+    background-color: red;
 }
