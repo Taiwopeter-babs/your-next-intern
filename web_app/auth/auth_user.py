@@ -47,21 +47,23 @@ def login():
                     next = url_for('app_auth.go_home')
                 flash('Login successful', category='success')
                 return redirect(next)
-                flash('Login successful', category='success')
+                
             else:
                 flash('Incorrect email or password', category='error')
                 return redirect(url_for('app_auth.login'))
 
         if company:
             if company.validate_password(password):
-                flash("Login successful", category='success')
+                # flash("Login successful", category='success')
                 login_user(company, remember=True)
 
                 # return client to requested page
                 next = request.args.get('next')
                 if next is None or not next.startswith('/'):
                     next = url_for('app_auth.go_home')
+                flash('Login successful', category='success')
                 return redirect(next)
+                
             else:
                 flash('Incorrect email or password', category='error')
                 return redirect(url_for('app_auth.login'))
