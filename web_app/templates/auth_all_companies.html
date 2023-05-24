@@ -13,8 +13,10 @@
 	<link rel="stylesheet" href="../static/styles/common.css">
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/all_companies.css">
-	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script async src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script defer src="../static/scripts/apply_to_company.js"></script>
+	<script defer src="../static/scripts/change_status.js"></script>
+
 	<title>Your Next Intern</title>
 </head>
 
@@ -55,12 +57,18 @@
 	</header>
 	<!-- Main Body -->
 
+
 	<div class="body-container">
+		<div id="loading" class="spinner-border text-success" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 		<h3>Companies on YNI</h3>
+
+
 		<section class="companies">
 
 			<table class="table table-hover table-bordered">
-				<caption>All Companies</caption>
+				<caption>Only organizations whose application windows are open are listed</caption>
 				<thead class="table-dark">
 					<tr>
 						<th scope="col">#</th>
@@ -82,7 +90,7 @@
 						<td id="intern-email">{{ company.email }}</td>
 						<td id="modal-popup">
 							<button type="button" data-button="{{ company.id }}"
-								class="company-info btn btn-info">Apply</button>
+								class="company-info btn btn-outline-info">Apply</button>
 							<div class="popup">
 								<div class="popup-content">
 									<div>
@@ -98,7 +106,7 @@
 									<div>Number of applicants: <span class="applicants-num"></span></div>
 									<div id="options-btn">
 										<button type="button" class=" close-modal btn btn-danger">Close</button>
-										<button type=" button" data-button="{{ current_user.id }}"
+										<button type="button" data-button="{{ current_user.id }}"
 											class="apply-to btn btn-outline-success">Proceed</button>
 									</div>
 
@@ -123,6 +131,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
 		integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
 		crossorigin="anonymous"></script>
+
 </body>
 
 </html>
