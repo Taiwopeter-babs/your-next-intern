@@ -127,7 +127,7 @@ class DBStorage:
         """closes the current database session"""
         self.__session.close()
     
-    def rollback_session():
+    def rollback_session(self):
         """ rollback session """
         self.__session.rollback()
 
@@ -142,6 +142,8 @@ class DBStorage:
         if cls and id:
             if type(cls) is str:
                 cls = classes.get(cls)
+            # stmt = select(cls).where(cls.id == id)
+            # user = self.__session.execute(stmt).first()
             user = self.__session.query(cls).filter_by(id=id).first()
             return user
         return None

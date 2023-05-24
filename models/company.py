@@ -5,7 +5,7 @@ from flask_login import UserMixin
 import hashlib
 import models
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, ForeignKey, Table, DATE
+from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, Table, DATE
 from sqlalchemy.orm import relationship
 
 if models.storage_type == "db":
@@ -49,6 +49,7 @@ class Company(BaseModel, Base, UserMixin):
         email = Column(String(128), nullable=False, unique=True)
         password =  Column(String(256), nullable=False, unique=True)
         website = Column(String(256), nullable=False, unique=True)
+        application_open = Column(Boolean, default=True)
         interns = relationship(
             "Intern", secondary="company_intern", back_populates="companies", viewonly=False
         )
