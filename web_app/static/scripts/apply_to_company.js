@@ -32,14 +32,7 @@ function applyToCompany() {
         $('.popup').fadeIn(300);
 
         // Send Intern data to api to apply to selected company
-        applicantsControl($companyId, function (statusCode) {
-            $applyButton.html(function () {
-                let val = statusCode === 200 || statusCode == 201 ? 'Applied' : 'Apply';
-                return val;
-            });
-            alert('Application Successful');
-
-        });
+        applicantsControl($companyId);
     });
 
     // Modal control section
@@ -61,7 +54,7 @@ function applyToCompany() {
  * applicantsControl - controls the query of the Intern application
  * to the api endpoint.
  */
-function applicantsControl(comId, changeToApplied) {
+function applicantsControl(comId) {
     // const $com_id = $('button.company-info').attr('data-button');
 
     $('button.apply-to').on('click', function () {
@@ -71,10 +64,17 @@ function applicantsControl(comId, changeToApplied) {
             url: `http://127.0.0.1:5001/api/v1/companies/${comId}/interns/${$intId}`,
             success: function (response, textStatus, jqXHR) {
                 const statusCode = jqXHR.status;
-                changeToApplied(statusCode);
+                console.log(statusCode)
+                if (statusCode === 201) {
+                    alert('You application is successful!');
+                } else if (statusCode === 200) {
+                    alert('You already applied to this company')
+                }
             },
             error: function (xhr) {
+                alert('Error in the response');
                 throw new Error('Error in the response');
+
             }
         })
     });
@@ -88,6 +88,8 @@ function applicantsControl(comId, changeToApplied) {
 function changeApplicationStatus() {
     const $allCompanies = $('section.companies').find('button.company-info');
     const $intId = $('button.apply-to').attr('data-button');
+    const $modalApplyButton = $('button.apply-to');
+    // console.log($('section.companies').find('button.apply-to'));
 
     $.get({
         url: `http://127.0.0.1:5001/api/v1/interns/${$intId}`,
@@ -98,11 +100,15 @@ function changeApplicationStatus() {
                 for (let i = 0; i < $allCompanies.length; i++) {
                     if ($allCompanies[i].dataset.button === obj.id) {
                         $allCompanies[i].innerHTML = 'Applied';
+                        // console.log($allCompanies[i]);
                     }
                 }
             });
         }
     });
+    $.each($modalApplyButton, function (index, obj) {
+        // console.log(obj);
+    })
 
 
 }
