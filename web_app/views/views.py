@@ -50,8 +50,11 @@ def company_profile(company_id):
     """ Retrieve data for a company's profile """
     from models import storage
     if current_user.is_authenticated:
-        storage.get_user_id(Company, company_id)
-        return render_template("org_profile.html", user=current_user)
+
+        com_obj = storage.get(Company, company_id)
+        com_interns = sorted(com_obj.interns, key=lambda k: k.first_name) 
+        return render_template("org_profile.html", user=current_user,
+                               com_interns=com_interns)
 
 @app_views.route("/all_interns", methods=['GET'])
 def all_interns():
