@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This module contains the DBStorage class"""
+from datetime import date
 from models.intern import Intern
 from models.company import Company, company_intern
 from models.school import School
@@ -175,13 +176,17 @@ class DBStorage:
                 .all()
             )
 
-            # add the date applied to the companies dictionary
-            for company, date_applied in companies:
-                company_dict = company.to_dict()
-                company_dict["date_applied"] = date_applied
-                list_companies.append(company_dict)
+            if companies:
+                # add the date applied to the companies dictionary
+                for company, date_applied in companies:
+                    company_dict = company.to_dict()
+                    company_dict["date_applied"] = date_applied
+                    list_companies.append(company_dict)
 
-            return list_companies
+                return list_companies
+            return None
+            
+        return None
 
     def get_user_by_email(self, cls_name, email: str):
         """ Get a user by email """
