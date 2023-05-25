@@ -1,22 +1,21 @@
 
-const $loading = $('#loading');
+// const $loading = $('#loading');
 
+// This will trigger a loading text/image on load
+$('#loading')
+    .hide()  // Hide it initially
+    .ajaxStart(function () {
+        $(this).show();
+    })
+    .ajaxStop(function () {
+        $(this).hide();
+    });
 
 /**
  * applyToCompany - retrieves info about an intern and
  * displays it in the modal container
  */
 function applyToCompany() {
-
-    // This will trigger a loading text/image on load
-    $('#loading')
-        .hide()  // Hide it initially
-        .ajaxStart(function () {
-            $(this).show();
-        })
-        .ajaxStop(function () {
-            $(this).hide();
-        });
 
     $('button.company-info').on('click', function () {
         const $companyId = $(this).data('button');
@@ -69,7 +68,7 @@ function applyToCompany() {
         return false;
     });
 
-    changeInternApplicationStatus();
+    // changeInternApplicationStatus();
 
 
 }
@@ -116,7 +115,7 @@ function applicantsControl(comId) {
  * changeApplicationStatus - Gets all the companies an intern applied
  * to and changes their `Action` status to `Applied
  */
-function changeInternApplicationStatus() {
+$(function changeInternApplicationStatus() {
     const $allCompanies = $('section.companies').find('button.company-info');
     const $intId = $('button.apply-to').attr('data-button');
 
@@ -134,7 +133,7 @@ function changeInternApplicationStatus() {
             });
         }
     });
-}
+});
 
 
 $(document).ready(applyToCompany());

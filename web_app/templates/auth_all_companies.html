@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="../static/styles/all_companies.css">
 	<script async src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script defer src="../static/scripts/apply_to_company.js"></script>
-	<script defer src="../static/scripts/change_status.js"></script>
+	<script type="module" defer src="../static/scripts/change_status.js"></script>
 
 	<title>Your Next Intern</title>
 </head>
@@ -82,6 +82,7 @@
 				<tbody>
 					{% set counter = 1 -%}
 					{% for company in companies %}
+					{% if company.application_open %}
 					<tr>
 						<th scope="row">{{ counter + loop.index0 }}</th>
 						<td id="intern-name">{{ company.name }}</td>
@@ -114,6 +115,7 @@
 							</div>
 						</td>
 					</tr>
+					{% endif %}
 					{% endfor %}
 
 				</tbody>

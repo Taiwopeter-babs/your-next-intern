@@ -2,7 +2,7 @@
 # from models.school import School
 # from models.intern import Intern
 # from models.company import Company
-# from models import storage
+from models import storage
 from datetime import date, datetime
 import uuid
 import hashlib
@@ -24,9 +24,10 @@ hashed = hashlib.sha256('yni_secret_key@#__6991'.encode('utf-8')).hexdigest()
 # hashed2 = hashlib.sha256('sapeir123'.encode('utf-8')).hexdigest()
 
 
-# user = storage.get("Intern", '45cdf2e9-b073-4aeb-910a-be810a7c565e')
-# print(user.to_dict())
+com = storage.get('Company', 'b5d3ad91-1040-4361-a51c-60caaecc75f3')
+print(com.application_open)
 # intern_obj = storage.get("Intern", '45cdf2e9-b073-4aeb-910a-be810a7c565e')
+# print(intern_obj.to_dict())
 # for com in intern_obj.companies:
 #         print(com.to_dict())
 
@@ -40,4 +41,4 @@ hashed = hashlib.sha256('yni_secret_key@#__6991'.encode('utf-8')).hexdigest()
 # else:
 #     print('No match')
 
-print(hashed)
+# print(hashed)
