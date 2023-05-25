@@ -7,18 +7,45 @@ from werkzeug.exceptions import HTTPException
 from sqlalchemy import exc
 
 
-@app_views.route('/companies/<company_id>', methods=['GET'])
+@app_views.route('/companies/<company_id>', methods=['GET', 'PUT'])
 def get_company(company_id):
     """Retrieves a Company object
     """
-    company_obj = storage.get("Company", company_id)
+    try:
+        com_obj = storage.get("Company", company_id)
 
-    if company_obj:
-        com_dict = company_obj.to_dict()
-        int_list = [obj.to_dict() for obj in company_obj.interns]
-        com_dict["interns"] = int_list
-        return make_response(jsonify(com_dict), 200)
-    abort(404)
+        if com_obj:
+            if request.method == 'GET':
+                try:
+                    com_dict = com_obj.to_dict()
+                except AttributeError:
+                    return make_response(jsonify("Bad Request"), 400)
+
+                int_list = [obj.to_dict() for obj in com_obj.interns]
+                com_dict["interns"] = int_list
+                return make_response(jsonify(com_dict), 200)
+            
+            if request.method == 'PUT':
+                if not request.json:
+                    return make_response(jsonify('Not a JSON'), 400)
+                
+                req_dict = request.get_json()
+                if 'application_open' not in req_dict:
+                    return make_response(jsonify('Empty request'), 400)
+
+                try:
+                    com_obj.application_open = req_dict.get('application_open')
+                    com_obj.save()
+                except AttributeError:
+                    return make_response(jsonify("Bad Request"), 400)
+                else:
+                    return make_response(jsonify(com_obj.application_open), 200)                  
+
+        abort(404)
+        
+    except exc.SQLAlchemyError:
+        storage.rollback_session()
+        return make_response(jsonify('Request timeout or overload'), 408)
 
 @app_views.route('/companies/<company_id>/interns/<intern_id>', methods=['POST'])
 def link_intern_with_company(company_id, intern_id):
@@ -32,7 +59,7 @@ def link_intern_with_company(company_id, intern_id):
         com_obj = storage.get("Company", company_id)
 
         if not intern_obj:
-        abort(404)
+            abort(404)
     
         if not com_obj:
             abort(404)

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This module contains the DBStorage class"""
+from datetime import date
 from models.intern import Intern
 from models.company import Company, company_intern
 from models.school import School
@@ -126,7 +127,7 @@ class DBStorage:
         """closes the current database session"""
         self.__session.close()
     
-    def rollback_session():
+    def rollback_session(self):
         """ rollback session """
         self.__session.rollback()
 
@@ -141,6 +142,8 @@ class DBStorage:
         if cls and id:
             if type(cls) is str:
                 cls = classes.get(cls)
+            # stmt = select(cls).where(cls.id == id)
+            # user = self.__session.execute(stmt).first()
             user = self.__session.query(cls).filter_by(id=id).first()
             return user
         return None
@@ -175,13 +178,17 @@ class DBStorage:
                 .all()
             )
 
-            # add the date applied to the companies dictionary
-            for company, date_applied in companies:
-                company_dict = company.to_dict()
-                company_dict["date_applied"] = date_applied
-                list_companies.append(company_dict)
+            if companies:
+                # add the date applied to the companies dictionary
+                for company, date_applied in companies:
+                    company_dict = company.to_dict()
+                    company_dict["date_applied"] = date_applied
+                    list_companies.append(company_dict)
 
-            return list_companies
+                return list_companies
+            return None
+            
+        return None
 
     def get_user_by_email(self, cls_name, email: str):
         """ Get a user by email """

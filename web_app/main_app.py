@@ -8,7 +8,7 @@ from web_app.views import app_views
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-# load the application configuration from
+# load the application configuration from Config class
 app.config.from_object(Config)
 
 # Register blueprints

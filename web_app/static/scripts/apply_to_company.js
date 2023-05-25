@@ -1,8 +1,22 @@
+
+const $loading = $('#loading');
+
+
 /**
  * applyToCompany - retrieves info about an intern and
  * displays it in the modal container
  */
 function applyToCompany() {
+
+    // This will trigger a loading text/image on load
+    $('#loading')
+        .hide()  // Hide it initially
+        .ajaxStart(function () {
+            $(this).show();
+        })
+        .ajaxStop(function () {
+            $(this).hide();
+        });
 
     $('button.company-info').on('click', function () {
         const $companyId = $(this).data('button');
@@ -24,22 +38,24 @@ function applyToCompany() {
                 $expertiseItem.html(response.specialization);
                 $websiteItem.html(response.website);
                 $applicantsNum.html(`${numberOfInterns} ${strNum}`);
+
             },
-            error: function (error) {
-                console.log(error);
+            error: function (error, jqXHR) {
+                // console.log(jqXHR, error.status);
+                alert(`${error.status}: Error in the request`);
+            },
+            beforeSend: function () {
+                $('#loading').show();
+            },
+            complete: function () {
+                $('#loading').hide();
             }
         })
+
         $('.popup').fadeIn(300);
 
         // Send Intern data to api to apply to selected company
-        applicantsControl($companyId, function (statusCode) {
-            $applyButton.html(function () {
-                let val = statusCode === 200 || statusCode == 201 ? 'Applied' : 'Apply';
-                return val;
-            });
-            alert('Application Successful');
-
-        });
+        applicantsControl($companyId);
     });
 
     // Modal control section
@@ -53,7 +69,7 @@ function applyToCompany() {
         return false;
     });
 
-    changeApplicationStatus();
+    changeInternApplicationStatus();
 
 
 }
@@ -61,7 +77,7 @@ function applyToCompany() {
  * applicantsControl - controls the query of the Intern application
  * to the api endpoint.
  */
-function applicantsControl(comId, changeToApplied) {
+function applicantsControl(comId) {
     // const $com_id = $('button.company-info').attr('data-button');
 
     $('button.apply-to').on('click', function () {
@@ -71,13 +87,28 @@ function applicantsControl(comId, changeToApplied) {
             url: `http://127.0.0.1:5001/api/v1/companies/${comId}/interns/${$intId}`,
             success: function (response, textStatus, jqXHR) {
                 const statusCode = jqXHR.status;
-                changeToApplied(statusCode);
+                console.log(statusCode)
+                if (statusCode === 201) {
+
+                    alert('You application is successful!');
+                } else if (statusCode === 200) {
+                    alert('You already applied to this company')
+                }
             },
             error: function (xhr) {
+                alert('Error in the response');
                 throw new Error('Error in the response');
+
+            },
+            beforeSend: function () {
+                $('#loading').show();
+            },
+            complete: function () {
+                $('#loading').hide();
             }
         })
     });
+
 }
 
 
@@ -85,7 +116,7 @@ function applicantsControl(comId, changeToApplied) {
  * changeApplicationStatus - Gets all the companies an intern applied
  * to and changes their `Action` status to `Applied
  */
-function changeApplicationStatus() {
+function changeInternApplicationStatus() {
     const $allCompanies = $('section.companies').find('button.company-info');
     const $intId = $('button.apply-to').attr('data-button');
 
@@ -103,8 +134,7 @@ function changeApplicationStatus() {
             });
         }
     });
-
-
 }
+
 
 $(document).ready(applyToCompany());

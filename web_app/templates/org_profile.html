@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/org_profile.css">
 	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script defer src="../static/scripts/company_status.js"></script>
 	<title>Your Next Intern</title>
 </head>
 
@@ -31,9 +32,9 @@
 				</button>
 				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
 					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="./intern_profile.html">Interns</a></li>
-						<li class="nav-item"><a href="">Companies</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_auth.go_home') }}">About YNI</a></li>
+						<!-- <li class="nav-item"><a href="{{ url_for('app_views.all_interns') }}">Interns</a></li> -->
+						<li class="nav-item"><a href="{{ url_for('app_views.all_companies')}}">Companies</a></li>
 						<li class="nav-item"><a href="">Blog</a></li>
 						<li class="nav-item"><a href="">YNI Stories</a></li>
 
@@ -54,14 +55,22 @@
 	<div class="body-container">
 
 		<section class="company-details">
-			<article>
+			<article class="company-data">
 				<div>{{ current_user.name }}</div>
 				<div>{{ current_user.specialization }}</div>
 				<div>{{ current_user.website }}</div>
 				<div>{{ current_user.email }}</div>
 			</article>
 			<article class="company-interact">
-				<div>{{ current_user.available_slots }}</div>
+				<div>Current openings:&ensp; {{ current_user.available_slots }}</div>
+				<div class="status-control">
+					Application window: <button type="button" id="display-status" class="btn btn-success"
+						disabled>open</button>
+				</div>
+				<div class="status-control">
+					<button id="showStatus" type="button" data-button="{{ current_user.id }}"
+						class="btn btn-danger">Close Application</button>
+				</div>
 				<div class="toggle-buttons">
 					<button type="button" class="btn btn-outline-secondary">Show applicants</button>
 					<button type="button" class="btn btn-outline-success">Show selected interns</button>
@@ -84,26 +93,20 @@
 						</tr>
 					</thead>
 					<tbody>
+						{% set counter = 1 -%}
+						{% for intern in com_interns %}
 						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>Political Science</td>
-							<td>{{ current_user.specialization }}</td>
-							<td>precious@email.com</td>
+							<th scope="row">{{ counter + loop.index0 }}</th>
+							<td>{{ intern.first_name }}</td>
+							<td>{{ intern.last_name }}</td>
+							<td>{{ intern.course }}</td>
+							<td>{{ intern.school }}</td>
+							<td>{{ intern.email }}</td>
 							<td>
-								<input type="checkbox" data-id="{{ current_user.id }}">
+								<input type="checkbox" data-id="{{ intern.id }}">
 							</td>
 						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>Political Science</td>
-							<td>{{ current_user.specialization }}</td>
-							<td>precious@email.com</td>
-							<td><input type="checkbox" data-id="{{ current_user.id }}"></td>
-						</tr>
+						{% endfor %}
 
 					</tbody>
 				</table>
