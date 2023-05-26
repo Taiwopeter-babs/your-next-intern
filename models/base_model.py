@@ -69,11 +69,16 @@ class BaseModel:
         """converts the object to a dictionary instance"""
 
         time_format = "%Y-%m-%dT%H:%M:%S"
+        birthday_format = "%Y-%m-%d"
         new_dict = {}
-        new_dict.update(self.__dict__)
+        new_dict = self.__dict__.copy()
 
         str_created = self.created_at.strftime(time_format)
         str_updated = self.updated_at.strftime(time_format)
+
+        if 'birthday' in new_dict:
+            birthday = self.birthday.strftime(birthday_format)
+            new_dict['birthday'] = birthday
 
         new_dict["__class__"] = type(self).__name__
         new_dict["created_at"] = str_created
