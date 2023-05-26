@@ -1,16 +1,4 @@
 
-// const $loading = $('#loading');
-
-// This will trigger a loading text/image on load
-$('#loading')
-    .hide()  // Hide it initially
-    .ajaxStart(function () {
-        $(this).show();
-    })
-    .ajaxStop(function () {
-        $(this).hide();
-    });
-
 /**
  * applyToCompany - retrieves info about an intern and
  * displays it in the modal container
@@ -73,14 +61,18 @@ function applyToCompany() {
 
 }
 /**
- * applicantsControl - controls the query of the Intern application
- * to the api endpoint.
+ * When the `Proceed` button is clicked, this function
+ * sends a `POST` request with the `intern id` and `company id` as
+ * part of the query in order to link an `intern` user with
+ * a `company` user.
+ * 
+ * On success, the response is shown.
  */
 function applicantsControl(comId) {
     // const $com_id = $('button.company-info').attr('data-button');
 
     $('button.apply-to').on('click', function () {
-        const $intId = $(this).data('button');
+        const $intId = $('section.companies').data('button');
 
         $.post({
             url: `http://127.0.0.1:5001/api/v1/companies/${comId}/interns/${$intId}`,
