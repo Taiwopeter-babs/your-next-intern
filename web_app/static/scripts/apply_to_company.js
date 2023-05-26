@@ -1,22 +1,9 @@
 
-const $loading = $('#loading');
-
-
 /**
  * applyToCompany - retrieves info about an intern and
  * displays it in the modal container
  */
 function applyToCompany() {
-
-    // This will trigger a loading text/image on load
-    $('#loading')
-        .hide()  // Hide it initially
-        .ajaxStart(function () {
-            $(this).show();
-        })
-        .ajaxStop(function () {
-            $(this).hide();
-        });
 
     $('button.company-info').on('click', function () {
         const $companyId = $(this).data('button');
@@ -69,19 +56,23 @@ function applyToCompany() {
         return false;
     });
 
-    changeInternApplicationStatus();
+    // changeInternApplicationStatus();
 
 
 }
 /**
- * applicantsControl - controls the query of the Intern application
- * to the api endpoint.
+ * When the `Proceed` button is clicked, this function
+ * sends a `POST` request with the `intern id` and `company id` as
+ * part of the query in order to link an `intern` user with
+ * a `company` user.
+ * 
+ * On success, the response is shown.
  */
 function applicantsControl(comId) {
     // const $com_id = $('button.company-info').attr('data-button');
 
     $('button.apply-to').on('click', function () {
-        const $intId = $(this).data('button');
+        const $intId = $('section.companies').data('button');
 
         $.post({
             url: `http://127.0.0.1:5001/api/v1/companies/${comId}/interns/${$intId}`,
@@ -116,7 +107,7 @@ function applicantsControl(comId) {
  * changeApplicationStatus - Gets all the companies an intern applied
  * to and changes their `Action` status to `Applied
  */
-function changeInternApplicationStatus() {
+$(function changeInternApplicationStatus() {
     const $allCompanies = $('section.companies').find('button.company-info');
     const $intId = $('button.apply-to').attr('data-button');
 
@@ -134,7 +125,7 @@ function changeInternApplicationStatus() {
             });
         }
     });
-}
+});
 
 
 $(document).ready(applyToCompany());

@@ -1,3 +1,16 @@
+:root {
+    --main-color: #0D2F35;
+    --main-radial: radial-gradient(at left top, #0D2F35, #3F5C54);
+
+    /* display flex row */
+    --flex-row-type: flex;
+    --flex-row-dir: row;
+
+    /*column*/
+    --flex-col-type: flex;
+    --flex-row-dir: column;
+}
+
 @font-face {
     font-family: 'Poltawski Nowy';
     /* font-family: 'PT Sans', sans-serif; */
@@ -6,15 +19,19 @@
 
 section.company-details {
     width: 100%;
-    margin: 2rem;
+    margin: 0 auto;
     max-width: 1000px;
     height: 15rem;
     display: flex;
     flex-flow: row;
     justify-content: space-around;
-    /* border: 1px solid black; */
     font-family: 'Poltawski Nowy';
+    background: var(--main-color);
+    background: var(--main-radial);
+    color: white;
 }
+
+
 
 .company-details article {
     height: 100%;
@@ -29,7 +46,17 @@ section.company-details {
 .company-data {
     /* border: 1px solid black; */
     padding: 10px;
-    background-color: bisque;
+    color: white;
+    display: var(--flex-col-type);
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.company-data div:first-child {
+    text-transform: capitalize;
+    font-size: 2.5rem;
+    /* border: 1px solid black; */
 }
 
 .company-interact {
@@ -63,19 +90,33 @@ section.company-details {
 .toggle-buttons {
     display: flex;
     flex-flow: row;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     /* border: 1px solid black; */
 }
 
 /* ======= Company's interns ========*/
 section.interns {
     width: 100%;
-    margin: 2rem;
+    margin: 0 auto;
+    margin-top: 2rem;
+    height: 50rem;
     max-width: 1000px;
     height: 15rem;
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     justify-content: space-around;
     /* border: 1px solid black; */
     font-family: 'Poltawski Nowy';
+}
+
+/* ====== Table ====== */
+tbody tr td:nth-of-type(-n+2) {
+    text-transform: capitalize;
+}
+
+tbody tr:hover {
+    color: white;
+    background: var(--main-radial);
+
 }

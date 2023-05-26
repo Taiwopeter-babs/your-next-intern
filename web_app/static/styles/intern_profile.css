@@ -1,3 +1,16 @@
+:root {
+    --main-color: #0D2F35;
+    --main-radial: radial-gradient(at left top, #0D2F35, #3F5C54);
+
+    /* display flex row */
+    --flex-row-type: flex;
+    --flex-row-dir: row;
+
+    /*column*/
+    --flex-col-type: flex;
+    --flex-row-dir: column;
+}
+
 @font-face {
     font-family: 'Poltawski Nowy';
     /* font-family: 'PT Sans', sans-serif; */
@@ -10,13 +23,14 @@
     justify-content: center;
     align-items: center;
     width: 80%;
-    /* max-width: 1000px; */
     height: 20rem;
     margin: 0 auto;
     margin-bottom: 30px;
-    color: rgb(19, 18, 16);
-    /* border: 1px solid black; */
+    border: 1px solid black;
     font-family: 'Poltawski Nowy';
+    background: var(--main-color);
+    background: var(--main-radial);
+    color: white;
 
 }
 
@@ -108,7 +122,8 @@
     flex-flow: column;
     justify-content: space-around;
     /* align-items: center; */
-    background: linear-gradient(60deg, #5d6e81 0%, #485563 100%);
+    background: var(--main-color);
+    background: var(--main-radial);
     color: antiquewhite;
 }
 
@@ -124,6 +139,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
+    font-size: .8rem;
     /* border: 1px solid black; */
 
 }
@@ -133,8 +149,8 @@
 }
 
 article.company:hover {
-    background: antiquewhite;
-    color: black;
+    /* background: antiquewhite; */
+    box-shadow: 5px 5px 10px 10px lightblue;
 }
 
 .status {

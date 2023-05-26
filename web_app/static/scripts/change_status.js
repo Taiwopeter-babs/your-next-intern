@@ -1,7 +1,11 @@
 
 /**
- * changeApplicationStatus - changes the `Action` status of companies
+ * changeApplicationStatus - changes the `Action` status column of companies
  * depending on whether their application window is open or closed.
+ * 
+ * Description - if the Intern already applied or not, and the company has
+ * closed its application window, the `button` will display `closed` and it will
+ * be disabled
  */
 function changeCompanyApplicationStatus() {
     const idArray = [];

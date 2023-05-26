@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="Your Next Intern"
+		content="Your Next Intern is a web application built to aid the search for interns and internship by companies and students respectively">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>404 Error</title>
+
+	<script type="text/javascript">
+
+		let seconds = 6;
+		// countdown timer. took 6 because page takes approx 1 sec to load
+
+		let url = "{{ url_for('app_auth.go_home') }}";
+		// variable for index.html url
+
+		function redirect() {
+			if (seconds <= 0) {
+
+				// redirect to new url after counter  down.
+				window.location = url;
+			} else {
+				seconds--;
+				document.getElementById("pageInfo").innerHTML = "Redirecting to Home Page after "
+					+ seconds + " seconds."
+				setTimeout("redirect()", 1000)
+			}
+		}
+	</script>
+</head>
+
+<body>
+
+	<h1>404 Error</h1>
+
+
+
+	<div>
+		<p>An Error has occured</p>
+		<p>
+			Please click here <a href="{{ url_for('app_auth.go_home') }}">home</a> to return to
+			the home page
+		</p>
+	</div>
+
+	<body onload="redirect()">
+		<p id="pageInfo"></p>
+
+
+	</body>
+
+</html>

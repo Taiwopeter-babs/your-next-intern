@@ -1,6 +1,9 @@
+const $loading = $('#loading');
+
 
 /**
- * displayStatus - toggles the `Close/Open Application button
+ * displayCompanyApplicationStatus - toggles the `Close/Open Application button 
+ * and the status badge depending on the action of the client
  */
 $(function displayCompanyApplicationStatus() {
 
@@ -16,15 +19,32 @@ $(function displayCompanyApplicationStatus() {
                 if ($('button#showStatus').hasClass('btn-success')) {
                     $('button#showStatus').removeClass('btn-success').addClass('btn-danger');
                     $('button#showStatus').html('Close Application')
+                    $('button#display-status').removeClass('btn-danger').addClass('btn-success');
+                    $('button#display-status').html('open');
                 }
             } else {
                 if ($('button#showStatus').hasClass('btn-danger')) {
                     $('button#showStatus').removeClass('btn-danger').addClass('btn-success');
                     $('button#showStatus').html('Open Application')
+                    $('button#display-status').html('closed');
+                    $('button#display-status').removeClass('btn-success').addClass('btn-danger');
                 }
             }
-
+        },
+        error: function (error) {
+            if (error.status === 400) {
+                alert(`Something went wrong. Please check your request`);
+            } else {
+                alert(`${error.status}`)
+            }
+        },
+        beforeSend: function () {
+            $loading.show();
+        },
+        complete: function () {
+            $loading.hide();
         }
+
     })
 });
 /**
@@ -57,24 +77,29 @@ function getCompanyStatus() {
             },
             data: JSON.stringify({ application_open: reqData }),
 
-            // response is a boolean value
+            // response is a boolean (true or false)
             success: function (response) {
 
                 // console.log(response);
                 if (response) {
+                    // button to change application window status
                     $('button#showStatus').html('Close Application');
-                    $('button#display-status').html('open');
                     $('button#showStatus').removeClass('btn-success').addClass('btn-danger');
+
+                    // button to show application window status
+                    $('button#display-status').html('open');
                     $('button#display-status').removeClass('btn-danger').addClass('btn-success');
+
                     alert('Your company is now open for applicants');
                 } else {
                     $('button#showStatus').html('Open Application');
                     $('button#display-status').html('closed');
+
                     $('button#showStatus').removeClass('btn-danger').addClass('btn-success');
                     $('button#display-status').removeClass('btn-success').addClass('btn-danger');
+
                     alert('You have now closed the application window to interns');
                 }
-
             }
         });
 

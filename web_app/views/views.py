@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """This module delivers authentication for a user"""
 from datetime import date
-from flask import render_template, url_for, render_template, redirect, flash, jsonify
+from flask import render_template, url_for, render_template, redirect, flash, jsonify, abort
 from flask_login import login_required, current_user
 from models.company import Company
 from models.intern import Intern
+from sqlalchemy import exc
 from web_app.views import app_views
+
 
 
 @app_views.route("/intern_profile/<intern_id>", methods=['GET', 'POST'])
@@ -33,23 +35,34 @@ def all_companies():
     """
     from models import storage
     
-    all_companies = storage.all(Company).values()
+    try:
+        all_companies = storage.all(Company).values()
+    except exc.SQLAlchemyError:
+        storage.rollback_session()
+        abort(404)
+
     companies = sorted(all_companies, key=lambda k: k.name)
 
     """
     Get the user's class if authenticated. This will be used
-    to check the link between an `intern` and a `company`
+    to redirect the user to the appropriate page
     """
     if current_user.is_authenticated:
         user = storage.get_user_by_id(current_user.id)
         user_class = user.to_dict()['__class__']
 
-        # Only render companies whose application_open status is True
-        open_com = [com for com in companies if com.application_open]
         if user_class == 'Intern':
             return render_template("auth_all_companies.html",
-                                   companies=open_com)
+                                   companies=companies)
     return render_template("all_companies.html", companies=companies)
+
+
+@app_views.route("/all_companies/open", methods=['GET'])
+def open_companies():
+    """ 
+    route for all the companies whose application windows are open
+    """
+    return render_template("open_org.html")
 
 
 @app_views.route("/org_profile/<company_id>", methods=['GET', 'POST'])

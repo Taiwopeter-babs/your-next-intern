@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/org_profile.css">
 	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script defer src="../static/scripts/company_status.js"></script>
+	<script type="module" defer src="../static/scripts/company_status.js"></script>
 	<title>Your Next Intern</title>
 </head>
 
@@ -56,7 +56,7 @@
 
 		<section class="company-details">
 			<article class="company-data">
-				<div>{{ current_user.name }}</div>
+				<div> {{ current_user.name }}</div>
 				<div>{{ current_user.specialization }}</div>
 				<div>{{ current_user.website }}</div>
 				<div>{{ current_user.email }}</div>
@@ -72,46 +72,51 @@
 						class="btn btn-danger">Close Application</button>
 				</div>
 				<div class="toggle-buttons">
-					<button type="button" class="btn btn-outline-secondary">Show applicants</button>
-					<button type="button" class="btn btn-outline-success">Show selected interns</button>
+					<!-- <button type="button" class="btn btn-secondary">Show applicants</button> -->
+					<button type="button" class="btn btn-success">Shortlist selected interns</button>
 				</div>
 			</article>
 		</section>
 		<section class="interns">
-			<div class="table-responsive">
-				<table class="table table-hover table-bordered">
-					<caption>List of Interns</caption>
-					<thead class="table-dark">
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">First Name</th>
-							<th scope="col">Last Name</th>
-							<th scope="col">Course</th>
-							<th scope="col">School</th>
-							<th scope="col">Email</th>
-							<th scope="col">select</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% set counter = 1 -%}
-						{% for intern in com_interns %}
-						<tr>
-							<th scope="row">{{ counter + loop.index0 }}</th>
-							<td>{{ intern.first_name }}</td>
-							<td>{{ intern.last_name }}</td>
-							<td>{{ intern.course }}</td>
-							<td>{{ intern.school }}</td>
-							<td>{{ intern.email }}</td>
-							<td>
-								<input type="checkbox" data-id="{{ intern.id }}">
-							</td>
-						</tr>
-						{% endfor %}
-
-					</tbody>
-				</table>
+			<div>
+				<h3>Applicants to your company</h3>
 			</div>
+			<div>
+				<div class="table-responsive">
+					<table class="table table-borderless">
+						<caption>List of prospective interns that applied to your company</caption>
+						<thead class="table-dark">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">First Name</th>
+								<th scope="col">Last Name</th>
+								<th scope="col">Course</th>
+								<th scope="col">School</th>
+								<th scope="col">Email</th>
+								<th scope="col">select</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% set counter = 1 -%}
+							{% for intern in com_interns %}
+							<tr>
+								<th scope="row">{{ counter + loop.index0 }}</th>
+								<td>{{ intern.first_name }}</td>
+								<td>{{ intern.last_name }}</td>
+								<td>{{ intern.course }}</td>
+								<td>{{ intern.school }}</td>
+								<td>{{ intern.email }}</td>
+								<td>
+									<input type="checkbox" data-id="{{ intern.id }}">
+								</td>
+							</tr>
+							{% endfor %}
 
+						</tbody>
+					</table>
+				</div>
+
+			</div>
 		</section>
 
 	</div>
