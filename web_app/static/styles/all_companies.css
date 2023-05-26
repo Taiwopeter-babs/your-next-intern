@@ -16,6 +16,13 @@
     /* border: 1px solid black; */
 }
 
+.page-directory {
+    width: 80%;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+}
+
 h3 {
     font-size: 2rem;
     text-transform: capitalize;

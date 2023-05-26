@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'Poltawski Nowy';
+    /* font-family: 'PT Sans', sans-serif; */
+    src: url("../fonts/PoltawskiNowy-SemiBold.ttf");
+}
+
+div.body-container {
+    margin-top: 2rem;
+    /* height: auto; */
+    padding: 0 10px;
+    /* border: 1px solid black; */
+}
+
+section.companies {
+    width: 100%;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    font-family: 'Poltawski Nowy';
+    /* padding: 10px; */
+}
+
+section.companies article {
+    width: 90%;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    /* border: 1px solid black; */
+    color: white;
+    background: #0A323A;
+    background: linear-gradient(135deg, #0A323A, #879189);
+}
+
+article:hover {
+    box-shadow: 5px 5px 2px 2px rgb(22, 23, 23);
+}
+
+article>div {
+    width: 30%;
+    height: 7rem;
+    /* border: 1px solid black; */
+}
+
+/** ==== Company's Name and specialty ===== */
+div.org-name,
+div.org-contact,
+div.apply-info {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+div.org-name div,
+div.org-contact div {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    /* border: 1px solid black; */
+}
+
+.org-name h3 {
+    font-size: 2rem;
+    text-transform: capitalize;
+    font-weight: 700;
+}
+
+.org-name p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.org-name p:hover {
+    overflow: visible;
+    white-space: normal;
+    height: auto;
+    background: #0A323A;
+    background: linear-gradient(135deg, #0A323A, #879189);
+    color: white;
+    z-index: 1;
+}
+
+/** ===== Apply action ====== */
+div.apply-info {
+    justify-content: space-evenly;
+    flex-flow: row;
+}
+
+.popup {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.58);
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+/* Popup inner div */
+.popup-content {
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 100px;
+    border-radius: 3px;
+    background: #fff;
+    position: relative;
+    border: 3px solid black;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.popup-content div {
+    margin: 10px;
+}
+
+.popup-content h2 {
+    font-size: 1.5rem;
+    text-transform: capitalize;
+}
+
+/** ====== Mobile Phones ===== */
+@media only screen and (max-width: 768px) {
+
+    section.companies article {
+        width: 70%;
+        height: 16rem;
+        margin-top: 15px;
+        flex-flow: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    div.org-name,
+    div.org-contact,
+    div.apply-info {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    div.org-name,
+    div.org-contact {
+        flex-flow: column;
+    }
+
+    div.apply-info {
+        flex-flow: row;
+    }
+
+    div.org-name div,
+    div.org-contact div {
+        width: 70%;
+        /* height: 3rem; */
+        /* border: 1px solid black; */
+    }
+
+    .org-name h3 {
+        font-size: 1.3rem;
+        text-transform: capitalize;
+        font-weight: 700;
+    }
+
+    .popup-content {
+        width: 100%;
+    }
+
+    .popup {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background: rgba(0, 0, 0, 0.58);
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+}
