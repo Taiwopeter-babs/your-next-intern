@@ -47,6 +47,7 @@ def get_company(company_id):
         storage.rollback_session()
         return make_response(jsonify('Request timeout or overload'), 408)
 
+
 @app_views.route('/companies/<company_id>/interns/<intern_id>', methods=['POST'])
 def link_intern_with_company(company_id, intern_id):
     """This endpoint allows an intern to be linked to a company
@@ -63,17 +64,43 @@ def link_intern_with_company(company_id, intern_id):
     
         if not com_obj:
             abort(404)
-  
+
+        # convert the companies linked to an intern to JSON serializable format
+        companies = [obj.to_dict() for obj in intern_obj.companies]
+        int_dict = intern_obj.to_dict()
+        int_dict['companies'] = companies
+
         if intern_obj in com_obj.interns:
-            return make_response(jsonify(intern_obj.to_dict()), 200)
+            return make_response(jsonify(True), 200)
     
         com_obj.interns.append(intern_obj)
         storage.save()
-        return make_response(jsonify(intern_obj.to_dict()), 201)
+        return make_response(jsonify(True), 201)
         
     except exc.SQLAlchemyError:
         storage.rollback_session()
         return make_response(jsonify('Request timeout'), 408)
     
     
+@app_views.route("/all_companies/", methods=['GET'])
+def open_companies():
+    """ An endpoint that returns a `JSON` list of companies
+    """
+    try:
+        all_coms = storage.all("Company").values()
+        sorted_coms = sorted(all_coms, key=lambda k: k.name)
+        
+        return_list = []
+        for com in sorted_coms:
+            com_dict = com.to_dict()
+            interns = [obj.to_dict() for obj in com.interns]
+            com_dict['interns'] = interns
+            return_list.append(com_dict)
+
+        response = jsonify(return_list)
+        return make_response(response, 200)
+
+    except exc.SQLAlchemyError:
+        storage.rollback_session()
+        return make_response(jsonify('Request timeout'), 408)
 
