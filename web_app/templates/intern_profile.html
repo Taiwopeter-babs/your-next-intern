@@ -55,6 +55,14 @@
 	<div class="body-container">
 		<section data-id="{{ current_user.id }}" class="intern-detail">
 
+			<article class="intern-pic">
+				{% if current_user.gender == 'Male' %}
+				<div><img src="../static/images/default_user_image.png" alt="User profile image"></div>
+				{% elif current_user.gender == 'Female' %}
+				<div><img src="../static/images/default_female_img.png" alt="User profile image"></div>
+				{% endif %}
+			</article>
+
 			<article class="intern-data">
 				<div>
 					<h3>{{ current_user.first_name }} {{ current_user.last_name }}</h3>
@@ -70,8 +78,8 @@
 						</strong>{{current_user. phone}}</span>
 				</div>
 				<div class="apply-btn">
-					<a href="{{ url_for('app_views.all_companies')}}"><button type="button"
-							class="btn btn-secondary">Apply to companies</button></a>
+					<a href="{{ url_for('app_views.all_companies')}}"><button type="button" class="btn btn-info">Apply
+							to companies</button></a>
 				</div>
 			</article>
 
