@@ -36,12 +36,6 @@ def close_db(error):
     from models import storage
     storage.close()
 
-@app.errorhandler(404)
-def not_found_error(error):
-    """ Handler for 404 error """
-    return render_template("404.html")
-
-
 
 if __name__ == "__main__":
     """Main"""

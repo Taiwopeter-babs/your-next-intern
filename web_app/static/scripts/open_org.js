@@ -62,7 +62,7 @@ async function displayCompanies() {
             })
         },
         error: function (error) {
-            console.log(`A ${error} occured!`);
+            location.replace('/');
         },
         beforeSend: function () {
             $('#loading').show();

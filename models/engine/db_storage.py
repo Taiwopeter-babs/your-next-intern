@@ -168,6 +168,7 @@ class DBStorage:
         company
         """
         list_companies = []
+        date_form = "%Y-%m-%d"
 
         if self.get("Intern", intern_id):
             companies = (
@@ -182,7 +183,7 @@ class DBStorage:
                 # add the date applied to the companies dictionary
                 for company, date_applied in companies:
                     company_dict = company.to_dict()
-                    company_dict["date_applied"] = date_applied
+                    company_dict["date_applied"] = date_applied.strftime(date_form)
                     list_companies.append(company_dict)
 
                 return list_companies

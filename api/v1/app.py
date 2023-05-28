@@ -42,4 +42,4 @@ if __name__ == "__main__":
     host = HOST if HOST else "0.0.0.0"
     port = PORT if PORT else "5000"
 
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=host, port=port, threaded=True, debug=True)

@@ -37,27 +37,30 @@ def all_companies():
     
     try:
         all_companies = storage.all(Company).values()
+    
+
+        companies = sorted(all_companies, key=lambda k: k.name)
+
+        """
+        Get the user's class if authenticated. This will be used
+        to redirect the user to the appropriate page
+        """
+        if current_user.is_authenticated:
+            user = storage.get_user_by_id(current_user.id)
+            user_class = user.to_dict()['__class__']
+
+            if user_class == 'Intern':
+                return render_template("auth_all_companies.html",
+                                    companies=companies)
+        return render_template("all_companies.html", companies=companies)
+
     except exc.SQLAlchemyError:
         storage.rollback_session()
-        abort(404)
-
-    companies = sorted(all_companies, key=lambda k: k.name)
-
-    """
-    Get the user's class if authenticated. This will be used
-    to redirect the user to the appropriate page
-    """
-    if current_user.is_authenticated:
-        user = storage.get_user_by_id(current_user.id)
-        user_class = user.to_dict()['__class__']
-
-        if user_class == 'Intern':
-            return render_template("auth_all_companies.html",
-                                   companies=companies)
-    return render_template("all_companies.html", companies=companies)
+        abort(500)
 
 
 @app_views.route("/all_companies/open", methods=['GET'])
+@login_required
 def open_companies():
     """ 
     route for all the companies whose application windows are open
@@ -71,16 +74,26 @@ def company_profile(company_id):
     """ Retrieve data for a company's profile """
     from models import storage
     
-    com_obj = storage.get(Company, company_id)
-    com_interns = sorted(com_obj.interns, key=lambda k: k.first_name) 
-    return render_template("org_profile.html", user=current_user,
-                            com_interns=com_interns)
+    try:
+        com_obj = storage.get(Company, company_id)
+        com_interns = sorted(com_obj.interns, key=lambda k: k.first_name) 
+        return render_template("org_profile.html", user=current_user,
+                                com_interns=com_interns)
+    except exc.SQLAlchemyError:
+        storage.rollback_session()
+        abort(500)
 
 
 @app_views.route("/all_interns", methods=['GET'])
 def all_interns():
     """ Get all the companies on the platform """
     from models import storage
-    all_interns = storage.all(Intern).values()
-    interns = sorted(all_interns, key=lambda k: k.first_name)
-    return render_template("all_interns.html", interns=interns)
+
+    try:
+        all_interns = storage.all(Intern).values()
+        interns = sorted(all_interns, key=lambda k: k.first_name)
+        return render_template("all_interns.html", interns=interns)
+
+    except exc.SQLAlchemyError:
+        storage.rollback_session()
+        abort(500)

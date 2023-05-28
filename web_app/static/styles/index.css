@@ -8,56 +8,71 @@
 /* HERO section */
 .hero-container {
 	max-width: 100%;
-	height: 16rem;
+	height: 20rem;
 	margin: 10px;
-	font-size: 2.0rem;
-	color: antiquewhite;
+	font-size: 1rem;
+	/* color: antiquewhite; */
 	display: flex;
 	flex-flow: row;
 	justify-content: space-evenly;
 	align-content: center;
-	border: 1px solid black;
-	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+	/* border: 1px solid black; */
+	/* background-image: linear-gradient(60deg, #29323c 0%, #485563 100%); */
 }
 
-.hero-container h2 {
-	color: rgb(34, 32, 30);
-}
-
-.hero-container div {
+.hero-container>div {
 	height: 100%;
-}
-
-.hero-container p {
-	line-height: 5rem;
+	width: 40%;
+	/* border: 1px solid black; */
 }
 
 .hero-call {
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
-	width: 20%;
-	line-height: 2.5rem;
+	line-height: 5rem;
+}
+
+.hero-call p:first-child {
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+.hero-call p:last-child {
+	font-size: 2rem;
+}
+
+.hero-call #count-num {
+	font-size: 6rem;
+	font-weight: 800;
 }
 
 .hero-logo {
 	font-family: "Poltawski Nowy";
-	font-size: 4rem;
 	text-align: center;
 	text-transform: capitalize;
 	width: 60%;
 	/* border: 1px solid black; */
 }
 
-
-
-/* Intern and company */
-.intern-hero {
-	max-width: 100%;
-	height: 30em;
-
+.hero-logo p:first-child {
+	font-size: 15rem;
 }
 
-.intern-hero article {
-	max-width: 90%;
+/** =========== Direction section ======== */
+.hero-dir {
+	max-width: 100%;
+	height: 10rem;
+	margin: 10px;
+	font-size: 1rem;
+}
+
+section.hero-dir article.for-interns,
+section.hero-dir article.for-org {
+	width: 100%;
+	height: inherit;
 	display: flex;
 	flex-flow: row;
 	justify-content: space-evenly;
@@ -65,66 +80,29 @@
 	/* border: 1px solid black; */
 }
 
-.intern-hero article>div {
-	width: 40%;
+.for-interns,
+.for-org {
+	line-height: 2rem;
 }
 
-.intro-call,
-.stories-link {
-	font-family: "Poltawski Nowy";
-	max-width: 40%;
-	height: 100%;
+.for-interns>div,
+.for-org>div {
+	font-family: 'Poltawski Nowy';
 	/* border: 1px solid black; */
-}
-
-.intro-call {
-	margin: 0 auto;
-	text-align: center;
-	display: flex;
-	flex-flow: column wrap;
-	justify-content: space-around;
-	align-content: center;
-}
-
-.intro-call>div div {
-	padding: 10px;
-	font-size: 2rem;
-}
-
-.intro-call h3 {
-	text-decoration: line-through;
-}
-
-.stories-link {
-	/* border: 1px solid black; */
-	display: flex;
-	flex-flow: column;
-}
-
-.stories-link>div {
-	text-align: center;
-	font-size: 2rem;
-}
-
-.stories-link button {
 	width: 30%;
-	margin: 10px auto;
-	border: 1px solid rgb(34, 32, 30);
-	color: rgb(34, 32, 30);
-	padding: 15px 32px;
 	text-align: center;
-	display: inline-block;
-	font-size: 1rem;
-	cursor: pointer;
 }
 
-.stories-link button:hover {
-	color: white;
-	background-color: rgb(34, 32, 30);
+.for-interns>div:first-child,
+.for-org>div:first-child {
+	font-size: 2.5rem;
 }
 
-.variety-call {
-	font-size: 2rem;
+.for-interns>div div,
+.for-org>div div {
+	height: 3rem;
+	/* border: 1px solid black; */
 	text-transform: capitalize;
-	line-height: 3rem;
+	font-size: 2rem;
+	font-weight: 700;
 }
