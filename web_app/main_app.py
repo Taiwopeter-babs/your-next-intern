@@ -5,6 +5,9 @@ from flask_login import LoginManager
 from web_app.auth import app_auth
 from web_app.views import app_views
 
+# Configuration for the upload
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 

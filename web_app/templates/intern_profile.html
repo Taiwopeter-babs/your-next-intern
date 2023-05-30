@@ -6,15 +6,17 @@
 	<meta name="Your Next Intern"
 		content="Your Next Intern is a web application built to aid the search for interns and internship by companies and students respectively">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
 	<!-- <link rel="stylesheet" href="../static/styles/index.css"> -->
 	<link rel="stylesheet" href="../static/styles/common.css">
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/intern_profile.css">
 	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script defer src="../static/scripts/intern_companies.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+	<script type="module" defer src="../static/scripts/intern_companies.js"></script>
+	<script defer src="../static/scripts/upload_image.js"></script>
 	<title>Your Next Intern</title>
 </head>
 
@@ -50,18 +52,60 @@
 
 		</nav>
 	</header>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+	{% for category, message in messages %}
+	{% if category == 'error' %}
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		{{ message }}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	{% else %}
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		{{ message }}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	{% endif %}
+	{% endfor %}
+	{% endif %}
+	{% endwith %}
 	<!-- Main Body -->
 
 	<div class="body-container">
 		<section data-id="{{ current_user.id }}" class="intern-detail">
 
 			<article class="intern-pic">
+				{% if current_user.image_path %}
+				<div><img src="{{ url_for('app_views.display_image', filename=current_user.image_path) }}"
+						alt="User profile image"></div>
+				{% else %}
 				{% if current_user.gender == 'Male' %}
 				<div><img src="../static/images/default_user_image.png" alt="User profile image"></div>
 				{% elif current_user.gender == 'Female' %}
 				<div><img src="../static/images/default_female_img.png" alt="User profile image"></div>
 				{% endif %}
+				{% endif %}
+				<!-- <a class="upload-button" href="/">Click to upload</a> -->
+
+				<button class="upload-button" type="button">Change avatar</button>
+
 			</article>
+			<div class="popup">
+				<div class="popup-content">
+					<form class="upload-img" method="post" enctype="multipart/form-data"
+						action="{{ url_for('app_views.upload_image', intern_id=current_user.id) }}">
+						<label for="user_photo">Choose a profile picture (max 10MB):</label>
+						<input type="file" class="form-control" id="user_photo" name="user_photo">
+
+						<div>
+							<button type="submit" class="submit-file btn btn-success" id="submit-file">Upload</button>
+							<button type="button" class="cancel btn btn-outline-danger">Cancel</button>
+						</div>
+					</form>
+
+
+				</div>
+			</div>
 
 			<article class="intern-data">
 				<div>
@@ -97,11 +141,11 @@
 	</div>
 
 	<!-- <footer class="footer"></footer> -->
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
-		integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
 		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
-		integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+		integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
 		crossorigin="anonymous"></script>
 </body>
 

@@ -1,3 +1,5 @@
+// import { modalControl } from "./apply_to_company.js";
+
 /**
  * displayCompanies - sends a GET request to an api endpoint with
  * the intern_id, and return the list of companies
@@ -55,7 +57,7 @@ function displayCompanies() {
 
                 $article.append($divDateStatus);
 
-                console.log($article.innerHTML);
+                // console.log($article.innerHTML);
 
                 // Append to static parent element
                 $companiesList.append($article)
@@ -64,5 +66,19 @@ function displayCompanies() {
     })
 
 }
+
+
+// /**
+//  * Allows a user select and upload a profile image
+//  */
+// $(function imageUpload() {
+
+//     $('.upload-button').on('click', function () {
+
+//         $('.popup').fadeIn(300);
+//     })
+
+//     modalControl();
+// });
 
 $(document).ready(displayCompanies());

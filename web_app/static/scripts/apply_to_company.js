@@ -7,7 +7,6 @@ function applyToCompany() {
 
     $('button.company-info').on('click', function () {
         const $companyId = $(this).data('button');
-        const $applyButton = $(this);
 
         // Retrieve the data of the selected company
         $.get({
@@ -88,7 +87,7 @@ function applicantsControl(comId) {
             },
             error: function (xhr) {
                 alert('Error in the response');
-                throw new Error('Error in the response');
+                location.reload();
 
             },
             beforeSend: function () {
@@ -123,6 +122,16 @@ $(function changeInternApplicationStatus() {
                     }
                 }
             });
+        },
+        error: function (error) {
+            alert(`${error.status} Error not Found`);
+            if (error.status === 404 || error.status === 408) {
+                // location.replace('/404');
+                console.log(error)
+            } else if (error.status === 500) {
+                // window.location = "{{ url_for('app_views.404') }}";
+                console.log(error);
+            }
         }
     });
 });
