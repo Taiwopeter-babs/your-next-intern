@@ -62,7 +62,7 @@ async function displayCompanies() {
             })
         },
         error: function (error) {
-            console.log(`A ${error} occured!`);
+            location.replace('/');
         },
         beforeSend: function () {
             $('#loading').show();
@@ -77,7 +77,8 @@ async function displayCompanies() {
 
 /**
  * runPage - solves the problem of dynamic rendering and delivery
- * of API results
+ * of API results. Awaits the rendering of the companies, then performs
+ * other tasks
  */
 async function runPage() {
     try {

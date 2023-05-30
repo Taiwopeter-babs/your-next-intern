@@ -10,3 +10,7 @@ class Config():
     application factory
     """
     SECRET_KEY = os.environ.get("SECRET_KEY")
+
+    # Configuration for the upload
+    UPLOAD_FOLDER = '/home/taiwop/yni_intern_users_photos/'
+    MAX_CONTENT_LENGTH = 10 * 1024 * 1024
