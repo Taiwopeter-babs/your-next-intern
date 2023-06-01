@@ -92,6 +92,14 @@ div.apply-info {
     flex-flow: row;
 }
 
+div.cancel-btn {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
 .popup {
     position: fixed;
     top: 0px;
@@ -111,7 +119,7 @@ div.apply-info {
     border-radius: 3px;
     background: #fff;
     position: relative;
-    border: 3px solid black;
+    /* border: 3px solid black; */
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
@@ -132,7 +140,7 @@ div.apply-info {
 
     section.companies article {
         width: 70%;
-        height: 16rem;
+        height: 18rem;
         margin-top: 15px;
         flex-flow: column;
         justify-content: space-evenly;
@@ -142,6 +150,7 @@ div.apply-info {
     div.org-name,
     div.org-contact,
     div.apply-info {
+        margin-top: 10px;
         width: 100%;
         display: flex;
         justify-content: space-around;
@@ -170,8 +179,22 @@ div.apply-info {
         font-weight: 700;
     }
 
+    .org-name>div:last-child {
+        z-index: 1;
+    }
+
+    div.cancel-btn {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
     .popup-content {
         width: 100%;
+        z-index: 1;
+        font-size: .7rem;
     }
 
     .popup {
@@ -180,7 +203,9 @@ div.apply-info {
         left: 0px;
         background: rgba(0, 0, 0, 0.58);
         width: 100%;
+        margin: 0 auto;
         height: 100%;
         display: none;
+        z-index: 1;
     }
 }

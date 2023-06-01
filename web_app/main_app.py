@@ -33,6 +33,23 @@ def load_user(user_id):
     from models import storage
     return storage.get_user_by_id(user_id)
 
+
+@app.errorhandler(408)
+def request_timeout_error(error):
+    """ 408 error handler """
+    return render_template('408.html')
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    """ 500 error handler """
+    return render_template('500.html')
+
+@app.errorhandler(404)
+def not_found_error(error):
+    """ Handler for 404 error """
+    return render_template("404.html")
+
+
 # close session on exit of application or error 
 def close_db(error):
     """Remove the current SQLAlchemy Session"""

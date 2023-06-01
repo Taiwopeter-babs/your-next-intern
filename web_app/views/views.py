@@ -63,7 +63,7 @@ def all_companies():
 
     except exc.SQLAlchemyError:
         storage.rollback_session()
-        abort(500)
+        abort(400)
 
 
 @app_views.route("/all_companies/open", methods=['GET'])
@@ -88,7 +88,7 @@ def company_profile(company_id):
                                 com_interns=com_interns)
     except exc.SQLAlchemyError:
         storage.rollback_session()
-        abort(500)
+        abort(400)
 
 
 @app_views.route("/all_interns", methods=['GET'])
@@ -103,7 +103,7 @@ def all_interns():
 
     except exc.SQLAlchemyError:
         storage.rollback_session()
-        abort(500)
+        abort(400)
 
 @app_views.route("/intern_profile/<intern_id>/", methods=['POST'])
 @login_required
@@ -156,7 +156,7 @@ def upload_image(intern_id):
         
     except (exc.SQLAlchemyError, FileExistsError, FileNotFoundError):
         storage.rollback_session()
-        abort(500)
+        abort(400)
 
 
 @app_views.route("/upload/<filename>/", methods=['GET'])

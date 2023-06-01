@@ -1,6 +1,4 @@
-
-import applyToCompany from './open_org_apply.js';
-
+import { applyToCompany } from "./open_org_apply.js";
 
 const url = 'http://127.0.0.1:5001/api/v1/all_companies';
 
@@ -12,8 +10,9 @@ const url = 'http://127.0.0.1:5001/api/v1/all_companies';
 async function displayCompanies() {
 
     const $sectionCompanies = $('section.companies');
+    const $intId = $('section.companies').attr('data-intern');
 
-    return $.ajax({
+    const result = await $.ajax({
         url: url,
         type: 'GET',
         success: function (response) {
@@ -23,45 +22,80 @@ async function displayCompanies() {
 
                 let buttonInfo = '';
                 let applyStatus = '';
+                let cancelBtn = '';
+
+
 
                 if (obj.application_open) {
                     buttonInfo = `<button type="button" class="btn btn-success" disabled>open</button>`;
-                    applyStatus = `<button type="button" data-id="${obj.id}" class="apply-to btn btn-primary">Apply</button>`;
+
+                    // check if the intern already applied to the company
+                    const res = () => {
+                        for (let i = 0; i < obj.interns.length; i++) {
+                            if (obj.interns[i].id == $intId) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+
+                    /**
+                     * disable button and set it to `Applied` if true,
+                     * otherwise enable button and set to `Apply`
+                     */
+                    if (res()) {
+                        applyStatus = `<button type="button" data-id="${obj.id}" class="apply-to btn btn-success" disabled>Applied</button>`;
+                        cancelBtn = `<button type="button" id="btn-cancel" class="btn btn-info">cancel application</button>`
+                    } else {
+                        applyStatus = `<button type="button" data-id="${obj.id}" class="apply-to btn btn-primary">Apply</button>`;
+                        cancelBtn = `<button type="button" id="btn-cancel" class="btn btn-info" disabled>cancel application</button>`
+                    }
+
                 } else {
                     buttonInfo = `<button type="button" class="btn btn-danger" disabled>closed</button>`;
                     applyStatus = `<button type="button" class="btn btn-primary" disabled>disabled</button>`;
+                    cancelBtn = `<button type="button" id="btn-cancel" class="btn btn-info" disabled>cancel application</button>`;
                 }
 
-                let article = `<article>`;
-                article += `<div class="org-name">`;
 
-                article += `<div>
-                                <h3>${obj.name}</h3>
-                            </div>`;
-                article += `<div>
-                                <p>${obj.specialization}</p>
-                            </div></div>`;
-                article += `<div class="org-contact">
-                                <div><a href="${obj.website}">${obj.website}</a></div>
-                                <div>${obj.email}</div>
-                                <div>Applicants: &ensp; ${obj.interns.length}</div>
-                            </div>`;
-                article += `<div class="apply-info">
-                                ${buttonInfo}
-                                ${applyStatus}
-                            </div></article>`;
-                article += `<div class="popup">
-                                <div class="popup-content">
+                const article = `<article>
+                                    <div class="org-name">
+                                        <div>
+                                            <h3>${obj.name}</h3>
+                                        </div>
+                                        <div>
+                                            <p>${obj.specialization}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-contact">
+                                        <div><a href="${obj.website}">${obj.website}</a></div>
+                                        <div>${obj.email}</div>
+                                        <div>Applicants: &ensp; ${obj.interns.length}</div>
+                                    </div>
                                     
-                                    <div>Application successful</div>                                 
+                                    <div class="apply-info">
+                                        ${buttonInfo}
+                                        ${applyStatus}
+                                    </div>
+                                    <div class="cancel-btn">
+                                        ${cancelBtn}
+                                    </div>
 
-                                </div>
-                            </div>`
+                                </article >
+
+        <div class="popup">
+            <div class="popup-content">
+                <div>Application successful</div>
+            </div>
+        </div>`;
 
                 $sectionCompanies.append(article);
-            })
+            });
         },
         error: function (error) {
+            alert(`Redirecting to home page`);
+            // console.log(error);
             location.replace('/');
         },
         beforeSend: function () {
@@ -69,10 +103,9 @@ async function displayCompanies() {
         },
         complete: function () {
             $('#loading').hide();
-
-
         }
     });
+    return result;
 }
 
 /**
@@ -87,7 +120,7 @@ async function runPage() {
             applyToCompany();
         }
     } catch (error) {
-        alert(error)
+        console.log(error);
     }
 
 }

@@ -35,7 +35,8 @@ $(function displayCompanyApplicationStatus() {
             if (error.status === 400) {
                 alert(`Something went wrong. Please check your request`);
             } else {
-                alert(`${error.status}`)
+                alert(`${error.status}`);
+                location.reload();
             }
         },
         beforeSend: function () {
@@ -81,7 +82,7 @@ function getCompanyStatus() {
             success: function (response) {
 
                 // console.log(response);
-                if (response) {
+                if (response.application_open) {
                     // button to change application window status
                     $('button#showStatus').html('Close Application');
                     $('button#showStatus').removeClass('btn-success').addClass('btn-danger');

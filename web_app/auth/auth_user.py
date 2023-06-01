@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from models.intern import Intern
 from models.company import Company
 import re
+from sqlalchemy import exc
 from web_app.auth import app_auth
 from werkzeug.exceptions import HTTPException
 
@@ -118,7 +119,7 @@ def intern_signup():
         if check_exists_email:
             flash('Email already in use', category='error')
             return render_template('intern_signup.html', schools=schools)
-
+        # check email pattern
         email_match = re.search(pattern, email)
         if not email_match:
             storage.rollback_session()
@@ -134,7 +135,7 @@ def intern_signup():
             flash('Phone must follow the pattern in the input form')
             return render_template('intern_signup.html', schools=schools)
         
-        
+        # check password equality
         if len(password1) < 8:
             flash('Password too short', category='error')
             return render_template('intern_signup.html', schools=schools)
@@ -152,7 +153,7 @@ def intern_signup():
         intern = Intern(**data)
         try:
             intern.save()     
-        except HTTPException:
+        except exc.SQLAlchemyError:
             storage.rollback_session()
             flash('Please fill all required fields', category='error')
             return render_template('intern_signup.html', schools=schools)
@@ -205,7 +206,7 @@ def org_signup():
         company = Company(**data)
         try:
             company.save()
-        except HTTPException:
+        except exc.SQLAlchemyError:
             flash('Please fill all required fields', category='error')
             storage.rollback_session()
             return render_template('org_signup.html')
