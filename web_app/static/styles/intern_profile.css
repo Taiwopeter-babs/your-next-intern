@@ -355,7 +355,7 @@ article.company:hover {
         justify-content: center;
         align-items: center;
         font-family: 'Poltawski Nowy';
-        border: 1px solid black;
+        /* border: 1px solid black; */
         margin-top: 40px;
     }
 

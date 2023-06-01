@@ -126,11 +126,9 @@ $(function changeInternApplicationStatus() {
         error: function (error) {
             alert(`${error.status} Error not Found`);
             if (error.status === 404 || error.status === 408) {
-                // location.replace('/404');
-                console.log(error)
+                location.replace('/');
             } else if (error.status === 500) {
-                // window.location = "{{ url_for('app_views.404') }}";
-                console.log(error);
+                location.replace('/');
             }
         }
     });

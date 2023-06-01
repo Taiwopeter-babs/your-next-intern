@@ -5,24 +5,24 @@ from flask import abort, jsonify, make_response, request
 from models import storage
 from werkzeug.exceptions import HTTPException
 from sqlalchemy import exc
+from models import storage
 
 
 @app_views.route('/companies/<company_id>', methods=['GET', 'PUT'])
 def get_company(company_id):
     """Retrieves a Company object
     """
-    try:
-        com_obj = storage.get("Company", company_id)
+    com_obj = storage.get("Company", company_id)
 
-        if com_obj:
-            if request.method == 'GET':
-                try:
-                    com_dict = com_obj.to_dict()
-                except AttributeError:
-                    return make_response(jsonify("Bad Request"), 400)
+    if com_obj:
 
-                int_list = [obj.to_dict() for obj in com_obj.interns]
-                com_dict["interns"] = int_list
+        try:
+
+            com_dict = com_obj.to_dict()
+            int_list = [obj.to_dict() for obj in com_obj.interns]
+            com_dict["interns"] = int_list
+                    
+            if request.method == 'GET':  
                 return make_response(jsonify(com_dict), 200)
             
             if request.method == 'PUT':
@@ -33,27 +33,32 @@ def get_company(company_id):
                 if 'application_open' not in req_dict:
                     return make_response(jsonify('Empty request'), 400)
 
-                try:
-                    com_obj.application_open = req_dict.get('application_open')
-                    com_obj.save()
-                except AttributeError:
-                    return make_response(jsonify("Bad Request"), 400)
-                else:
-                    return make_response(jsonify(com_obj.application_open), 200)                  
 
-        abort(404)
+                com_obj.application_open = req_dict.get('application_open')
+                com_obj.save()
+                com_dict = com_obj.to_dict()
+                int_list = [obj.to_dict() for obj in com_obj.interns]
+                com_dict["interns"] = int_list
+                      
+                return make_response(jsonify(com_obj.to_dict()), 200)
+                    
+        except exc.SQLAlchemyError:
+            storage.rollback_session()
+            return make_response(jsonify('Request timeout or overload'), 408)
+
+    abort(404)
         
-    except exc.SQLAlchemyError:
-        storage.rollback_session()
-        return make_response(jsonify('Request timeout or overload'), 408)
+    
 
-
-@app_views.route('/companies/<company_id>/interns/<intern_id>', methods=['POST'])
+@app_views.route('/companies/<company_id>/interns/<intern_id>', methods=['POST', 'DELETE'])
 def link_intern_with_company(company_id, intern_id):
     """This endpoint allows an intern to be linked to a company
 
     if status code == 200, intern already applid to the company,
     otherwise status code == 201 and intern is just added.
+
+    For `DELETE` requests, returns status code 200 if the action has been
+    enacted, otherwise, a 204 status code is returned
     """
     try:
         intern_obj = storage.get("Intern", intern_id)
@@ -66,21 +71,31 @@ def link_intern_with_company(company_id, intern_id):
             abort(404)
 
         # convert the companies linked to an intern to JSON serializable format
-        companies = [obj.to_dict() for obj in intern_obj.companies]
-        int_dict = intern_obj.to_dict()
-        int_dict['companies'] = companies
+        if request.method == 'POST':
+            companies = [obj.to_dict() for obj in intern_obj.companies]
+            int_dict = intern_obj.to_dict()
+            int_dict['companies'] = companies
 
-        if intern_obj in com_obj.interns:
-            return make_response(jsonify(True), 200)
+            if intern_obj in com_obj.interns:
+                return make_response(jsonify(True), 200)
+        
+            com_obj.interns.append(intern_obj)
+            storage.save()
+            return make_response(jsonify(True), 201)
+
+        if request.method == 'DELETE':
+            if intern_obj in com_obj.interns:
+                com_obj.interns.remove(intern_obj)
+                storage.save()
+                return make_response(jsonify({"status": "success"}), 200)
     
-        com_obj.interns.append(intern_obj)
-        storage.save()
-        return make_response(jsonify(True), 201)
+            return make_response(jsonify({"status": "not found"}), 204)
+
         
     except exc.SQLAlchemyError:
         storage.rollback_session()
         return make_response(jsonify('Request timeout'), 408)
-    
+
     
 @app_views.route("/all_companies/", methods=['GET'])
 def open_companies():
@@ -102,5 +117,4 @@ def open_companies():
 
     except exc.SQLAlchemyError:
         storage.rollback_session()
-        return make_response(jsonify('Request timeout'), 408)
-
+        return make_response(jsonify({"status": "Request timeout"}), 408)

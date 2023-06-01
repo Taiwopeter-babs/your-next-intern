@@ -17,68 +17,32 @@ function displayCompanies() {
 
             $.each(response, function (index, obj) {
 
-
-                const $article = $('<article>', { class: 'company' });
-
-                // company name
-                const $divName = $('<div>');
-                const $h4 = $('<h4>');
-
-                // company specialty
-                const $divSpecial = $('<div>');
-                const $pSpecial = $('<p>');
-
-                // company website
-                const $divWeb = $('<div>');
-                const $pWeb = $('<p>');
-
-                // date intern applied
-                const $divDateStatus = $('<div>', { class: 'com-date-status' });
-                const $divDate = $('<div>');
-                const $divStatus = $('<div>', { class: 'status' });
-
-                // Company Name
-                $divName.append($h4.text(obj.name));
-                $divName.appendTo($article);
-
-                // Company specialty
-                $divSpecial.append($pSpecial.text(obj.specialization));
-                $divSpecial.appendTo($article);
-
-                // Company website
-                $divWeb.append($pWeb.html(`${obj.website}`));
-                $article.append($divWeb);
-
-                // Intern date of application to the company
                 const date = new Date(obj.date_applied);
-                // console.log(date.toDateString())
-                $divDate.html(`Applied: ${date.toDateString()}`).appendTo($divDateStatus);
-                $divStatus.appendTo($divDateStatus);
 
-                $article.append($divDateStatus);
+                const article = `<article class="company">
 
-                // console.log($article.innerHTML);
+                                    <div><h4>${obj.name}</h4></div>
+
+                                    <div><p>${obj.specialization}</p></div>
+
+                                    <div><p>${obj.website}</p></div>
+
+                                    <div class="com-date-status">
+
+                                        <div>Applied: ${date.toDateString()}</div>
+                                        <div class="status"></div>
+
+                                    </div>
+
+                                </article>`
+                    ;
 
                 // Append to static parent element
-                $companiesList.append($article)
+                $companiesList.append(article)
             })
         }
     })
 
 }
-
-
-// /**
-//  * Allows a user select and upload a profile image
-//  */
-// $(function imageUpload() {
-
-//     $('.upload-button').on('click', function () {
-
-//         $('.popup').fadeIn(300);
-//     })
-
-//     modalControl();
-// });
 
 $(document).ready(displayCompanies());

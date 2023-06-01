@@ -35,6 +35,6 @@ def get_intern(intern_id):
 
     except exc.SQLAlchemyError:
         storage.rollback_session()
-        return make_response(jsonify('Request Timeout'), 408)
+        return make_response(jsonify({"error": "Request Timeout"}), 408)
 
     

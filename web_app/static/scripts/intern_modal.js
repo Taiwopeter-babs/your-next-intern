@@ -23,7 +23,8 @@ function toggleInternInfo() {
                 $companyNum.html(`${numberOfCompanies} ${strNum}`);
             },
             error: function (error) {
-                console.log(error);
+                alert(`${error.status}: ${response.status} Reloading page`)
+                location.reload();
             }
         })
         $('.popup').fadeIn(300);
