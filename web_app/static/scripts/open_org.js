@@ -7,12 +7,12 @@ const url = 'http://127.0.0.1:5001/api/v1/all_companies';
  * Interns can also `apply` to the company if the application is `open`,
  * otherwise, a `disabled` button is shown
  */
-async function displayCompanies() {
+function displayCompanies() {
 
     const $sectionCompanies = $('section.companies');
     const $intId = $('section.companies').attr('data-intern');
 
-    const result = await $.ajax({
+    return $.ajax({
         url: url,
         type: 'GET',
         success: function (response) {
@@ -96,7 +96,7 @@ async function displayCompanies() {
         error: function (error) {
             alert(`Redirecting to home page`);
             // console.log(error);
-            location.replace('/');
+            // location.replace('/');
         },
         beforeSend: function () {
             $('#loading').show();
@@ -105,7 +105,6 @@ async function displayCompanies() {
             $('#loading').hide();
         }
     });
-    return result;
 }
 
 /**
@@ -128,4 +127,4 @@ async function runPage() {
 $(document).ready(function () {
     runPage();
 
-});
+})

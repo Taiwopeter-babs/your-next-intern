@@ -23,6 +23,7 @@ class Intern(BaseModel, Base, UserMixin):
         course = Column(String(128), nullable=False)
         email = Column(String(128), nullable=False, unique=True)
         password = Column(String(256), nullable=False, unique=True)
+        image_path = Column(String(512), nullable=True)
         address = Column(String(256), nullable=False)
         phone = Column(String(15), nullable=False, unique=True)
         preferred_organization = Column(String(256))

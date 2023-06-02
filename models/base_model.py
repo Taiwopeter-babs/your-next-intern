@@ -73,6 +73,24 @@ class BaseModel:
         new_dict = {}
         new_dict = self.__dict__.copy()
 
+        """
+        This solves the `RecursionError` encountered when I serialize
+        the objects which are in a many-many relationship in the table.
+
+        Instead of adding each dictionary representation of the object
+        which requires that the objects related to it also be serailized,
+        the ids are added, simplifying the JSON serialization process
+        """
+        if type(self).__name__ == 'Company':
+            interns = [intern.id for intern in self.interns]
+            new_dict['interns'] = interns
+        
+        if type(self).__name__ == 'Intern':
+            companies = [com.id for com in self.companies]
+            new_dict['companies'] = companies
+
+            
+
         str_created = self.created_at.strftime(time_format)
         str_updated = self.updated_at.strftime(time_format)
 

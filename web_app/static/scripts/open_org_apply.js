@@ -20,14 +20,15 @@ export function applyToCompany() {
                 console.log(response)
 
                 const statusCode = jqXHR.status;
-                if (statusCode === 200) {
-                    $('div.popup-content div').html('You already applied to this company');
+                if (statusCode === 201) {
+                    // $('div.popup-content div').html('You already applied to this company');
+                    // location.replace(`/intern_profile/${$intId}`);
                 }
             },
             error: function (error, jqXHR) {
                 // console.log(jqXHR, error.status);
                 alert(`${error.status}: Error in the request`);
-                // location.reload()
+
             },
             beforeSend: function () {
                 $('#loading').show();

@@ -97,7 +97,7 @@ def link_intern_with_company(company_id, intern_id):
         return make_response(jsonify('Request timeout'), 408)
 
     
-@app_views.route("/all_companies/", methods=['GET'])
+@app_views.route("/all_companies", methods=['GET'])
 def open_companies():
     """ An endpoint that returns a `JSON` list of companies
     """

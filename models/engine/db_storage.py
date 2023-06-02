@@ -182,7 +182,9 @@ class DBStorage:
             if companies:
                 # add the date applied to the companies dictionary
                 for company, date_applied in companies:
+                    int_list = [obj.to_dict() for obj in company.interns]
                     company_dict = company.to_dict()
+                    company_dict["interns"] = int_list
                     company_dict["date_applied"] = date_applied.strftime(date_form)
                     list_companies.append(company_dict)
 

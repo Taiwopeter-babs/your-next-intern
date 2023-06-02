@@ -63,14 +63,14 @@ class Company(BaseModel, Base, UserMixin):
         hashed = hashlib.sha256(input_password.encode('utf-8')).hexdigest()
         return (hashed == self.password)
 
-    if models.storage_type != "db":
-        @property
-        def interns(self):
-            """Returns a list of Intern objects related to
-            the company
-            """
-            all_interns = models.storage.all("Intern").values()
+    # if models.storage_type != "db":
+    #     @property
+    #     def interns(self):
+    #         """Returns a list of Intern objects related to
+    #         the company
+    #         """
+    #         all_interns = models.storage.all("Intern").values()
 
-            intern_list = [intern for intern in all_interns
-                           if intern.company_id == self.id]
-            return intern_list
+    #         intern_list = [intern for intern in all_interns
+    #                        if intern.company_id == self.id]
+    #         return intern_list
