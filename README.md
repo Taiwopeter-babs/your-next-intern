@@ -132,6 +132,7 @@ GET /all_companies - retrieves all companies/organizations
 ## Quick links
 
 | Section | Link |
+|-------- | -----|
 | APIs    | [api dir](./api/v1) |
 | HTML templates | [html templates](./web_app/templates/) |
 | Main application | [Application](./web_app/) |
