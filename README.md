@@ -30,6 +30,8 @@ While many appreciate the abstraction of SQL statements that ORMs provide, I sti
 
 The usage of jQuery as the Javascript library for the client-side, whose choice was influenced by the quick learning curve as opposed to other libraries.
 
+The jinja templating engine enabled the rendering of the HTML templates(click [here](./web_app/templates/)).
+
 Two bash scripts were used to start the servers for the API and the main application
 - For the main app: [start_app](./start_app)
 
@@ -126,7 +128,7 @@ GET /all_companies - retrieves all companies/organizations
  ![Profile page of an intern on YNI](./project_images/int_profile.jpeg?raw=true "Intern profile page")
 
  - Page listing companies on the platform
- ![All companies on YNI](./project_images/yni_coms.PNG?raw=true "All companies")
+ ![All companies on YNI](./project_images/yni_coms.PNG?raw=true "All companies on YNI")
 
 
 ## Quick links
@@ -138,3 +140,10 @@ GET /all_companies - retrieves all companies/organizations
 | Main application | [Application](./web_app/) |
 | Main application factory | [app factory](./web_app/main_app.py) |
 | Main application configuration | [app config](./web_app/config.py) |
+
+## Authors
+- Taiwo Babalola [Linkedin](www.linkedin.com/in/taiwo-babalola) [Twitter](https://twitter.com/realtaiwo_peter)
+
+
+## Reach Out
+Please reach out to me if you'd like to contribute to this project.
