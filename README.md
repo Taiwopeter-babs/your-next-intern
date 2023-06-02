@@ -79,7 +79,8 @@ This section lists the programming langauages, libraries, and frameworks used in
 ## Routes and APIs
 
 ### Routes
-- Authentication endpoints - [link](./web_app/auth/auth_user.py)
+- Authentication endpoints - [link here](./web_app/auth/auth_user.py)
+
 GET /login - renders the login page
 POST /login - authentication of registered users to login
 
@@ -89,7 +90,7 @@ POST /intern_signup - interns registration
 GET /org_signup - renders the organization registration page
 POST /org_signup - organizations registration
 
-- Endpoints for views - profile, image upload [link](./web_app/views/views.py)
+- Endpoints for views - profile, image upload [link here](./web_app/views/views.py)
 
 GET /intern_profile/<intern_id> - renders an intern profile page
 GET /org_profile/<org_id> - renders an organization profile page
@@ -110,3 +111,18 @@ POST /companies/<company_id>/interns/<intern_id> - links a company and an intern
 DELETE /companies/<company_id>/interns/<intern_id> - unlinks a company and an intern, and updates their relationship in the storage
 
 GET /all_companies - retrieves all companies/organizations
+
+
+## Application Screnshots
+
+ - Home Page
+ ![Your Next Intern Home page](./project_images/yni_home.PNG?raw=true "Home page")
+
+ - Organization's profile page
+ ![Profile page of an organization on YNI](./project_images/yni_com.PNG?raw=true "profile page")
+
+ - Intern's profile page
+ ![Profile page of an intern on YNI](./project_images/int_profile.jpeg?raw=true "Intern profile page")
+
+ - Page listing companies on the platform
+ ![All companies on YNI](./project_images/yni_coms.PNG?raw=true "All companies")
