@@ -3,6 +3,8 @@
 ## Content
 - [Introduction](#introduction)
 - [Overview of project architecture](#overview-of-project-architecture)
+- [Technologies](#technology)
+- [Routes and APIs](#routes-and-apis)
 
 ## Introduction
 
@@ -64,3 +66,47 @@ Press CTRL+C to quit
  * Debugger is active!
  * Debugger PIN: ***-***-***
 ```
+
+## Technology
+
+This section lists the programming langauages, libraries, and frameworks used in the development of the application
+- jQuery
+- Flask
+- Bootstrap
+- HTML
+- CSS3
+
+## Routes and APIs
+
+### Routes
+- Authentication endpoints - [link](./web_app/auth/auth_user.py)
+GET /login - renders the login page
+POST /login - authentication of registered users to login
+
+GET /intern_signup - renders the intern registration page
+POST /intern_signup - interns registration
+
+GET /org_signup - renders the organization registration page
+POST /org_signup - organizations registration
+
+- Endpoints for views - profile, image upload [link](./web_app/views/views.py)
+
+GET /intern_profile/<intern_id> - renders an intern profile page
+GET /org_profile/<org_id> - renders an organization profile page
+GET /all_companies/open - renders a template for companies an intern can apply to
+GET /all_interns - renders a template that lists all interns
+POST /intern_profile/<intern_id> - provides a URL to render an uploaded image
+
+### APIs
+
+GET /interns - retrieves all interns
+GET /interns/<intern_id> - retrieves an intern
+
+GET /companies/<company_id> - retrieves a company
+PUT /companies/<company_id> - updates a company's application window status (open or closed)
+
+POST /companies/<company_id>/interns/<intern_id> - links a company and an intern, and updates their relationship in the storage
+
+DELETE /companies/<company_id>/interns/<intern_id> - unlinks a company and an intern, and updates their relationship in the storage
+
+GET /all_companies - retrieves all companies/organizations

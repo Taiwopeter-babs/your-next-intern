@@ -75,14 +75,14 @@ def open_companies():
     return render_template("open_org.html")
 
 
-@app_views.route("/org_profile/<company_id>", methods=['GET', 'POST'])
+@app_views.route("/org_profile/<org_id>", methods=['GET', 'POST'])
 @login_required
-def company_profile(company_id):
+def company_profile(org_id):
     """ Retrieve data for a company's profile """
     from models import storage
     
     try:
-        com_obj = storage.get(Company, company_id)
+        com_obj = storage.get(Company, org_id)
         com_interns = sorted(com_obj.interns, key=lambda k: k.first_name) 
         return render_template("org_profile.html", user=current_user,
                                 com_interns=com_interns)
