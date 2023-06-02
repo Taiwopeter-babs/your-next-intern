@@ -5,6 +5,7 @@
 - [Overview of project architecture](#overview-of-project-architecture)
 - [Technologies](#technology)
 - [Routes and APIs](#routes-and-apis)
+- [Screenshots](#application-screenshots)
 
 ## Introduction
 
@@ -113,7 +114,7 @@ DELETE /companies/<company_id>/interns/<intern_id> - unlinks a company and an in
 GET /all_companies - retrieves all companies/organizations
 
 
-## Application Screnshots
+## Application Screenshots
 
  - Home Page
  ![Your Next Intern Home page](./project_images/yni_home.PNG?raw=true "Home page")
@@ -126,3 +127,13 @@ GET /all_companies - retrieves all companies/organizations
 
  - Page listing companies on the platform
  ![All companies on YNI](./project_images/yni_coms.PNG?raw=true "All companies")
+
+
+## Quick links
+
+| Section | Link |
+| APIs    | [api dir](./api/v1) |
+| HTML templates | [html templates](./web_app/templates/) |
+| Main application | [Application](./web_app/) |
+| Main application factory | [app factory](./web_app/main_app.py) |
+| Main application configuration | [app config](./web_app/config.py) |
