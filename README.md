@@ -6,6 +6,10 @@
 - [Technologies](#technology)
 - [Routes and APIs](#routes-and-apis)
 - [Screenshots](#application-screenshots)
+- [Quick Links](#quick-links)
+- [Authors](#authors)
+- [Reach Out](#reach-out)
+
 
 ## Introduction
 
@@ -18,6 +22,7 @@ YNI was built with jQuery, a Javascript library and Flask, a Python framework.
 - jQuery was used for the client-side functionality - dynamic rendering of HTML elements and AJAX (Asynchronous Javascript And XML) was used to query the API endpoints on the server.
 
 - Flask, was used at the backend to create the routes and endpoints, while MySQL functions as the RDBMS.
+[Back to content](#content)
 
 
 ## Overview of project architecture
@@ -69,6 +74,7 @@ Press CTRL+C to quit
  * Debugger is active!
  * Debugger PIN: ***-***-***
 ```
+[Back to content](#content)
 
 ## Technology
 
@@ -78,6 +84,8 @@ This section lists the programming langauages, libraries, and frameworks used in
 - Bootstrap
 - HTML
 - CSS3
+[Back to content](#content)
+
 
 ## Routes and APIs
 
@@ -115,6 +123,9 @@ DELETE /companies/<company_id>/interns/<intern_id> - unlinks a company and an in
 
 GET /all_companies - retrieves all companies/organizations
 
+[Back to content](#content)
+
+
 
 ## Application Screenshots
 
@@ -129,6 +140,9 @@ GET /all_companies - retrieves all companies/organizations
 
  - Page listing companies on the platform
  ![All companies on YNI](./project_images/yni_coms.PNG?raw=true "All companies on YNI")
+
+[Back to content](#content)
+
 
 
 ## Quick links
@@ -147,3 +161,5 @@ GET /all_companies - retrieves all companies/organizations
 
 ## Reach Out
 Please reach out to me if you'd like to contribute to this project.
+
+[Back to content](#content)
