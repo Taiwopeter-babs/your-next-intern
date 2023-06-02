@@ -5,6 +5,11 @@
 - [Overview of project architecture](#overview-of-project-architecture)
 - [Technologies](#technology)
 - [Routes and APIs](#routes-and-apis)
+- [Screenshots](#application-screenshots)
+- [Quick Links](#quick-links)
+- [Authors](#authors)
+- [Reach Out](#reach-out)
+
 
 ## Introduction
 
@@ -17,6 +22,7 @@ YNI was built with jQuery, a Javascript library and Flask, a Python framework.
 - jQuery was used for the client-side functionality - dynamic rendering of HTML elements and AJAX (Asynchronous Javascript And XML) was used to query the API endpoints on the server.
 
 - Flask, was used at the backend to create the routes and endpoints, while MySQL functions as the RDBMS.
+[Back to content](#content)
 
 
 ## Overview of project architecture
@@ -28,6 +34,8 @@ SQLAlchemy, an ORM (Object Relational Mapper) was used to integrate MySQL into t
 While many appreciate the abstraction of SQL statements that ORMs provide, I still found SQL queries useful during the development of the application. For instance, upon the realization that an intern profile needed an image section where avatars could be uploaded, I added a new column with ```ALTER TABLE interns ADD COLUMN `image_path` VARCHAR(512)``` query, though, adding the class attribute `image_path` would have still created the column.
 
 The usage of jQuery as the Javascript library for the client-side, whose choice was influenced by the quick learning curve as opposed to other libraries.
+
+The jinja templating engine enabled the rendering of the HTML templates(click [here](./web_app/templates/)).
 
 Two bash scripts were used to start the servers for the API and the main application
 - For the main app: [start_app](./start_app)
@@ -66,6 +74,7 @@ Press CTRL+C to quit
  * Debugger is active!
  * Debugger PIN: ***-***-***
 ```
+[Back to content](#content)
 
 ## Technology
 
@@ -75,11 +84,14 @@ This section lists the programming langauages, libraries, and frameworks used in
 - Bootstrap
 - HTML
 - CSS3
+[Back to content](#content)
+
 
 ## Routes and APIs
 
 ### Routes
-- Authentication endpoints - [link](./web_app/auth/auth_user.py)
+- Authentication endpoints - [link here](./web_app/auth/auth_user.py)
+
 GET /login - renders the login page
 POST /login - authentication of registered users to login
 
@@ -89,7 +101,7 @@ POST /intern_signup - interns registration
 GET /org_signup - renders the organization registration page
 POST /org_signup - organizations registration
 
-- Endpoints for views - profile, image upload [link](./web_app/views/views.py)
+- Endpoints for views - profile, image upload [link here](./web_app/views/views.py)
 
 GET /intern_profile/<intern_id> - renders an intern profile page
 GET /org_profile/<org_id> - renders an organization profile page
@@ -110,3 +122,44 @@ POST /companies/<company_id>/interns/<intern_id> - links a company and an intern
 DELETE /companies/<company_id>/interns/<intern_id> - unlinks a company and an intern, and updates their relationship in the storage
 
 GET /all_companies - retrieves all companies/organizations
+
+[Back to content](#content)
+
+
+
+## Application Screenshots
+
+ - Home Page
+ ![Your Next Intern Home page](./project_images/yni_home.PNG?raw=true "Home page")
+
+ - Organization's profile page
+ ![Profile page of an organization on YNI](./project_images/yni_com.PNG?raw=true "profile page")
+
+ - Intern's profile page
+ ![Profile page of an intern on YNI](./project_images/int_profile.jpeg?raw=true "Intern profile page")
+
+ - Page listing companies on the platform
+ ![All companies on YNI](./project_images/yni_coms.PNG?raw=true "All companies on YNI")
+
+[Back to content](#content)
+
+
+
+## Quick links
+
+| Section | Link |
+|-------- | -----|
+| APIs    | [api dir](./api/v1) |
+| HTML templates | [html templates](./web_app/templates/) |
+| Main application | [Application](./web_app/) |
+| Main application factory | [app factory](./web_app/main_app.py) |
+| Main application configuration | [app config](./web_app/config.py) |
+
+## Authors
+- Taiwo Babalola [Linkedin](www.linkedin.com/in/taiwo-babalola) [Twitter](https://twitter.com/realtaiwo_peter)
+
+
+## Reach Out
+Please reach out to me if you'd like to contribute to this project.
+
+[Back to content](#content)
