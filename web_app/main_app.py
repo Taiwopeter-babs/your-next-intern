@@ -14,49 +14,55 @@ app.url_map.strict_slashes = False
 # load the application configuration from Config class
 app.config.from_object(Config)
 
-# Register blueprints
-app.register_blueprint(app_auth)
-app.register_blueprint(app_views)
+def create_app():
+    """ App Factory """
 
-""" Protection for the routes/endpoints which are only
-accessed by authenticated users
-"""
-login_manager = LoginManager()
-login_manager.login_view = "app_auth.login"
-login_manager.session_protection = 'strong'
-login_manager.init_app(app)
+    # Register blueprints
+    app.register_blueprint(app_auth)
+    app.register_blueprint(app_views)
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    """ Load information about a user that is authenticated """
-    from models import storage
-    return storage.get_user_by_id(user_id)
+    """ Protection for the routes/endpoints which are only
+    accessed by authenticated users
+    """
+    login_manager = LoginManager()
+    login_manager.login_view = "app_auth.login"
+    login_manager.session_protection = 'strong'
+    login_manager.init_app(app)
 
 
-@app.errorhandler(408)
-def request_timeout_error(error):
-    """ 408 error handler """
-    return render_template('408.html')
-
-@app.errorhandler(500)
-def internal_server_error(error):
-    """ 500 error handler """
-    return render_template('500.html')
-
-@app.errorhandler(404)
-def not_found_error(error):
-    """ Handler for 404 error """
-    return render_template("404.html")
+    @login_manager.user_loader
+    def load_user(user_id):
+        """ Load information about a user that is authenticated """
+        from models import storage
+        return storage.get_user_by_id(user_id)
 
 
-# close session on exit of application or error 
-def close_db(error):
-    """Remove the current SQLAlchemy Session"""
-    from models import storage
-    storage.close()
+    @app.errorhandler(408)
+    def request_timeout_error(error):
+        """ 408 error handler """
+        return render_template('408.html')
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        """ 500 error handler """
+        return render_template('500.html')
+
+    @app.errorhandler(404)
+    def not_found_error(error):
+        """ Handler for 404 error """
+        return render_template("404.html")
+
+
+    # close session on exit of application or error 
+    def close_db(error):
+        """Remove the current SQLAlchemy Session"""
+        from models import storage
+        storage.close()
+    
+    return app
 
 
 if __name__ == "__main__":
     """Main"""
+    app = create_app()
     app.run(host="0.0.0.0", port=5000, threaded=True, debug=True)
