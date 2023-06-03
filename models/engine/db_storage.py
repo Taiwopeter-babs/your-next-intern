@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module contains the DBStorage class"""
 from datetime import date
+from dotenv import load_dotenv
 from models.intern import Intern
 from models.company import Company, company_intern
 from models.school import School
@@ -9,6 +10,8 @@ import os
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+# load environment variables 
+load_dotenv()
 
 classes = {"Intern": Intern, "Company": Company, "School": School}
 

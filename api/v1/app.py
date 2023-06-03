@@ -3,6 +3,7 @@
 and registers blueprints for diffrent API routes
 """
 from api.v1.views import app_views
+from dotenv import load_dotenv
 from flask import Flask, jsonify, make_response
 from flask_cors import CORS
 from models import storage
@@ -40,6 +41,8 @@ def create_app():
     return app
 
 if __name__ == "__main__":
+    load_dotenv()
+
     HOST = os.getenv("API_HOST")
     PORT = os.getenv("API_PORT")
 

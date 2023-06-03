@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 """Selects the storage type to load the storage engine"""
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 storage_type = os.getenv("YNI_STORAGE_TYPE")
 

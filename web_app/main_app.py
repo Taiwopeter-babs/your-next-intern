@@ -1,9 +1,12 @@
 """ create the authentication blueprint """
-from web_app.config import Config
+from dotenv import load_dotenv
 from flask import Flask, render_template
 from flask_login import LoginManager
 from web_app.auth import app_auth
+from web_app.config import Config
 from web_app.views import app_views
+
+
 
 # Configuration for the upload
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -64,5 +67,6 @@ def create_app():
 
 if __name__ == "__main__":
     """Main"""
+    load_dotenv()
     app = create_app()
     app.run(host="0.0.0.0", port=5000, threaded=True, debug=True)
