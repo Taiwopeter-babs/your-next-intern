@@ -1,3 +1,8 @@
+:root {
+    --main-color: #0D2F35;
+    --main-radial: radial-gradient(at left top, #0D2F35, #3F5C54);
+}
+
 .main-body-container {
     padding: 1.5rem;
     display: flex;
@@ -18,7 +23,8 @@
 
 /** ====== FORM ====== **/
 section.signup-form {
-    background-image: linear-gradient(60deg, #475464 0%, #293038 100%);
+    background: var(--main-color);
+    background-image: var(--main-radial);
     margin: 0 auto;
     padding: 2rem;
     width: 100%;

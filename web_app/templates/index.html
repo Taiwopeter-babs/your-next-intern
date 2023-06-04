@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../static/styles/common.css">
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/index.css">
+	<script defer src="https://kit.fontawesome.com/e94210b672.js" crossorigin="anonymous"></script>
 	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 	<title>Your Next Intern</title>
@@ -95,9 +96,9 @@
 	<div class="body-container">
 		<section class="hero-container">
 			<div class="hero-call">
-				<p>Apply for internships in</p>
-				<p id="count-num">3 Easy</p>
-				<p>steps</p>
+				<p>The Search For Internships</p>
+				<p id="count-num">Just Got Easier</p>
+				<!-- <p>steps</p> -->
 
 			</div>
 			<div class="hero-logo">
@@ -107,54 +108,96 @@
 		</section>
 		<section class="hero-dir">
 			<article class="for-interns">
-				<div class="shadow-lg p-3 mb-5 bg-body rounded">For Interns</div>
+				<div>For Interns</div>
 				<div>
 					<div>
-						<p>Register</p>
 						<p>
-							Select the Intern option when you click
-							on the registration link
+							Find organizations easily. &ensp;
+							Apply swiftly.
 						</p>
 					</div>
-					<div>
-						<p>Find Companies</p>
-						<p>
-							Find
-							organizations that suit your profile
-						</p>
+					<div class="img-container"><img src="../static/images/yni_coms.PNG" alt="Intern application image">
 					</div>
+
 				</div>
 
 			</article>
-			<!-- <article class="for-org">
+			<article class="for-org">
 				<div>For Companies & Organizations</div>
 				<div>
-					<div>Register</div>
-					<p>
-						Select the <i>Company</i> option when you click
-						on the registration link, Login after registration.
-					</p>
+					<div>
+						<p>
+							Find talents quickly. &ensp;
+							Control the application.
+						</p>
+					</div>
+					<div class="img-container"><img src="../static/images/yni_com.PNG" alt="Company profile image">
+					</div>
+				</div>
+			</article>
+
+			<article class="about">
+				<p>
+				<h2>About</h2>
+				</p>
+				<p>
+					Your Next Intern (YNI) is a web application built to assist undergraduates in Nigerian
+					higher institutions in their search for internship positions. YNI eliminates the need
+					for propective interns to appear physically in every organization they are interested in
+					for an application to be submitted
+				</p>
+				<hr>
+				<p>
+					Organizations now have a way of recruiting interns and getting an aggregated data, with
+					the Download as CSV feature.
+					<br>
+				</p>
+				<br>
+				<hr>
+				<p>
+					Register. &ensp; Find Companies. &ensp; Apply.
+				</p>
+			</article>
+			<article class="join-call">
+				<div>
+					<p>Interns</p>
+					<p><a href="{{ url_for('app_auth.intern_signup') }}">Begin here</a></p>
 				</div>
 				<div>
-					<div>Monitor Applicants</div>
-					<p>
-						Control your application, download applicants data
-					</p>
+					<p>Companies</p>
+					<p><a href="{{ url_for('app_auth.org_signup') }}">Start here</a></p>
 				</div>
-			</article> -->
+			</article>
+		</section>
 
-			<!-- <div>Find Companies</div>
-			<div>Apply</div> -->
-			<!-- 
-			<div><button><a href="">Register</a></button></div>
-			<div><button><a href="">Find Companies</a></button></div>
-			<div><button><a href="">Apply</a></button></div> -->
+		<section class="dev">
+			<article class="dev-profile">
+				<div class="img-container"><img src="../static/images/dev_img.JPG" alt="developer's image"></div>
+				<div>Taiwo Babalola</div>
+				<div>Software Engineer</div>
+			</article>
 
+			<article class="contact">
+				<div>Connect with me</div>
+				<div id="social-links">
+					<div><a href="https://twitter.com/realtaiwo_peter" target="_blank"><i
+								class="fa-brands fa-twitter fa-2xl"></i></a></div>
+					<div><a href="https://linkedin.com/in/taiwo-babalola" target="_blank"><i
+								class="fa-brands fa-linkedin fa-2xl"></i></a></div>
+					<div><a href="https://github.com/Taiwopeter-babs" target="_blank"><i
+								class="fa-brands fa-github fa-2xl"></i></a></div>
+				</div>
+
+
+			</article>
+			<article>
+				<span>Link to project repo:</span><span><a href="https://github.com/Taiwopeter-babs/your-next-intern"
+						target="_blank">&ensp; Click Here</a></span>
+			</article>
 		</section>
 
 	</div>
 
-	<!-- <footer class="footer"></footer> -->
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
 		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
 		crossorigin="anonymous"></script>
