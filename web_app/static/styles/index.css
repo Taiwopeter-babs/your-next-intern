@@ -299,3 +299,168 @@ article.contact>div {
 	text-decoration: none;
 	/* color: black; */
 }
+
+/** ============ HOME PAGE STYLES ======== **/
+/* Mobile Styles */
+@media screen and (max-width: 767px) {
+	.hero-container {
+		flex-flow: column;
+		height: auto;
+		margin-bottom: 20px;
+	}
+
+	.hero-container>div {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.hero-call {
+		line-height: normal;
+	}
+
+	.hero-call p:first-child {
+		font-size: 1.2rem;
+	}
+
+	.hero-call p:last-child {
+		font-size: 1.5rem;
+	}
+
+	.hero-call #count-num {
+		font-size: 3rem;
+	}
+
+	.hero-logo {
+		width: 100%;
+	}
+
+	.hero-logo p:first-child {
+		font-size: 3rem;
+	}
+
+	.hero-dir article {
+		flex-flow: column;
+	}
+
+	section.hero-dir article.for-interns,
+	section.hero-dir article.for-org {
+		flex-flow: column;
+	}
+
+	.for-org>div:first-child,
+	.for-interns>div:first-child {
+		line-height: 2rem;
+		font-size: 2rem;
+
+	}
+
+	.for-org>div:not(:first-child) div,
+	.for-interns>div:not(:first-child) div {
+		margin-bottom: 20px;
+		/* border: 1px solid black; */
+
+	}
+
+	.for-interns>div,
+	.for-org>div {
+		width: 100%;
+		flex-flow: column;
+		margin-top: 20px;
+	}
+
+	.for-interns div img,
+	.for-org div img {
+		width: 100%;
+		height: auto;
+	}
+
+	.about p {
+		line-height: normal;
+		font-size: 1rem;
+	}
+
+	.about h2 {
+		font-size: 1.5rem;
+	}
+
+	.join-call {
+		flex-flow: column;
+	}
+
+	.join-call div:first-child {
+		border-right: none;
+		border-bottom: 1px solid black;
+	}
+
+	.join-call div:last-child {
+		margin-top: 20px;
+		border-bottom: 1px solid black;
+	}
+
+	.join-call p {
+		width: 100%;
+	}
+
+	.join-call a {
+		width: 100%;
+	}
+
+	section.dev {
+		flex-flow: column;
+		/* border: 1px solid black; */
+	}
+
+	.dev article {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.dev article div {
+		margin-top: 10px;
+	}
+
+	.dev div img {
+		width: 150px;
+		height: 150px;
+	}
+
+	article.contact>div {
+		flex-flow: column;
+	}
+
+	.contact>div:first-child {
+		font-size: 1.5rem;
+	}
+
+	article.contact>div {
+		flex-flow: column;
+	}
+
+	div#social-links {
+		flex-flow: row;
+	}
+
+	div#social-links i {
+		font-size: 30px;
+
+	}
+
+	.github-link {
+		width: 100%;
+		margin: 0 auto;
+		display: flex;
+		flex-flow: row;
+		justify-content: space-evenly;
+		/* border: 1px solid black; */
+	}
+
+	.github-link span {
+		font-size: .7rem;
+		display: inline-block;
+		text-align: center;
+		width: 40%;
+	}
+}
+
+/* Default Styles */
+/* Add any styles that should apply to all screen sizes here */

@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/intern_signup.css">
 	<link rel="stylesheet" href="../static/styles/login.css">
+	<link rel="icon" href="../static/images/yni_logo.png" />
 	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="module" defer src="../static/scripts/auth_login.js"></script>
 
@@ -33,8 +34,7 @@
 				</button>
 				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
 					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="./intern_profile.html">Interns</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_auth.go_home') }}">About YNI</a></li>
 						<li class="nav-item"><a href="">Companies</a></li>
 						<li class="nav-item"><a href="">Blog</a></li>
 						<li class="nav-item"><a href="">YNI Stories</a></li>
@@ -44,8 +44,10 @@
 								Register
 							</a>
 							<ul class="btn btn-secondary dropdown-menu dropdown-menu-dark">
-								<li><a class="dropdown-item drop-item" href="./intern_signup.html">Intern</a></li>
-								<li><a class="dropdown-item drop-item" href="./org_signup.html">Company</a></li>
+								<li><a class="dropdown-item drop-item"
+										href="{{ url_for('app_auth.intern_signup') }}">Intern</a></li>
+								<li><a class="dropdown-item drop-item"
+										href="{{ url_for('app_auth.org_signup') }}">Company</a></li>
 							</ul>
 						</li>
 						<li class="nav-item"><a href=""> Sign In</a></li>

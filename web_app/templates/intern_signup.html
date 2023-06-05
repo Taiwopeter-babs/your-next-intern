@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="../static/styles/common.css">
 	<link rel="stylesheet" href="../static/styles/header.css">
 	<link rel="stylesheet" href="../static/styles/intern_signup.css">
+	<link rel="icon" href="../static/images/yni_logo.png" />
 	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="module" defer src="../static/scripts/auth_intern.js"></script>
 
@@ -23,16 +24,16 @@
 		<!--LINKS-->
 		<nav class="nav-bar navbar navbar-expand-lg navbar-expand-md fixed-top">
 			<div class="container-fluid">
-				<a class="navbar-brand logo" href="./index.html">YNI</a>
+				<a class="navbar-brand logo" href="{{ url_for('app_auth.go_home') }}">YNI</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsiblenav"
 					aria-controls="collapsiblenav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
 					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="./intern_profile.html">Interns</a></li>
-						<li class="nav-item"><a href="">Companies</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_auth.go_home') }}">About YNI</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_views.all_interns') }}">Interns</a></li>
+						<li class="nav-item"><a href="{{ url_for('app_views.all_companies') }}">Companies</a></li>
 						<li class="nav-item"><a href="">Blog</a></li>
 						<li class="nav-item"><a href="">YNI Stories</a></li>
 						<li class="nav-item dropdown">
@@ -40,10 +41,14 @@
 								data-bs-toggle="dropdown" aria-expanded="false">
 								Register
 							</a>
+
 							<ul class="btn btn-secondary dropdown-menu dropdown-menu-dark">
-								<li><a class="dropdown-item drop-item" href="./intern_signup.html">Intern</a></li>
-								<li><a class="dropdown-item drop-item" href="./org_signup.html">Company</a></li>
+								<li><a class="dropdown-item drop-item"
+										href="{{ url_for('app_auth.intern_signup') }}">Intern</a></li>
+								<li><a class="dropdown-item drop-item"
+										href="{{ url_for('app_auth.org_signup') }}">Company</a></li>
 							</ul>
+
 						</li>
 						<li class="nav-item"><a href="{{ url_for('app_auth.login') }}"> Sign In</a></li>
 					</ul>
