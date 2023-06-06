@@ -94,9 +94,9 @@ def intern_signup():
 
     if request.method == 'POST':
         first_name = request.form.get('first_name')
-        specialization = request.form.get('specialization')
+        last_name = request.form.get('last_name')
         gender = request.form.get('gender')
-        available_slots = request.form.get('available_slots')
+        birthday = request.form.get('birthday')
         school = request.form.get('school')
         course = request.form.get('course')
         address = request.form.get('address')
@@ -144,8 +144,8 @@ def intern_signup():
             flash('passwords do not match', category='error')
             return render_template('intern_signup.html', schools=schools)
         
-        data = {'first_name': first_name, 'specialization': specialization, 'gender': gender,
-                'available_slots': date.fromisoformat(available_slots), 'school': school,
+        data = {'first_name': first_name, 'gender': gender, 'last_name': last_name,
+                'birthday': date.fromisoformat(birthday), 'school': school,
                 'course': course, 'address': address, 'phone': phone,
                 ' preferred_organization': preferred_organization,
                 'email': email, 'password': password1, 'school_id': sch_id}
