@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# starts a flask app
-python3 -m "$1"

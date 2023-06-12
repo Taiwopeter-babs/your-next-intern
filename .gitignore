@@ -2,5 +2,5 @@
 **/__pycache__
 *.json
 helpers/
-
+.vscode
 # Ignore API and application starters
