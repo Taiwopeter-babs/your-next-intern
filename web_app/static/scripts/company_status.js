@@ -1,5 +1,3 @@
-const $loading = $('#loading');
-
 
 /**
  * displayCompanyApplicationStatus - toggles the `Close/Open Application button 
@@ -40,10 +38,10 @@ $(function displayCompanyApplicationStatus() {
             }
         },
         beforeSend: function () {
-            $loading.show();
+            $('#loading').show()
         },
         complete: function () {
-            $loading.hide();
+            $('#loading').hide()
         }
 
     })
@@ -59,16 +57,14 @@ function getCompanyStatus() {
 
 
     $('button#showStatus').on('click', function () {
-        const $statusText = $(this).text();
+        const $statusText = $(this).html().trim();
 
-        console.log($statusText);
 
         if ($statusText === 'Close Application') {
             reqData = false;
         } else if ($statusText === 'Open Application') {
             reqData = true
         }
-        // console.log(reqData);
 
         $.ajax({
             url: `http://127.0.0.1:5001/api/v1/companies/${$comId}`,
@@ -78,7 +74,7 @@ function getCompanyStatus() {
             },
             data: JSON.stringify({ application_open: reqData }),
 
-            // response is a boolean (true or false)
+            // response is a boolean
             success: function (response) {
 
                 // console.log(response);
@@ -101,6 +97,9 @@ function getCompanyStatus() {
 
                     alert('You have now closed the application window to interns');
                 }
+            },
+            error: function (error) {
+                console.log(error);
             }
         });
 

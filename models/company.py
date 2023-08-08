@@ -14,14 +14,14 @@ if models.storage_type == "db":
         Base.metadata,
         Column(
             "intern_id",
-            String(50),
+            String(60),
             ForeignKey("interns.id", onupdate='CASCADE', ondelete='CASCADE'),
             primary_key=True,
             nullable=False
         ),
         Column(
             "company_id",
-            String(50),
+            String(60),
             ForeignKey("companies.id", onupdate='CASCADE', ondelete='CASCADE'),
             primary_key=True,
             nullable=False
@@ -43,13 +43,14 @@ class Company(BaseModel, Base, UserMixin):
         __tablename__ = "companies"
 
         name = Column(String(100), nullable=False, unique=True)
+        email = Column(String(128), nullable=False, index=True, unique=True)
+        password = Column(String(256), nullable=False, unique=True)
         address = Column(String(256), nullable=False)
         specialization = Column(String(256), nullable=False)
         available_slots = Column(Integer, default=0)
-        email = Column(String(128), nullable=False, unique=True)
-        password =  Column(String(256), nullable=False, unique=True)
         website = Column(String(256), nullable=False, unique=True)
         application_open = Column(Boolean, default=True)
+        is_administrator = Column(Boolean, default=False)
         interns = relationship(
             "Intern", secondary="company_intern", back_populates="companies", viewonly=False
         )
@@ -58,10 +59,7 @@ class Company(BaseModel, Base, UserMixin):
         """Initializes the class"""
         super().__init__(*args, **kwargs)
 
-    def validate_password(self, input_password):
-        """ Validates an Intern paswword """
-        hashed = hashlib.sha256(input_password.encode('utf-8')).hexdigest()
-        return (hashed == self.password)
+    
 
     # if models.storage_type != "db":
     #     @property

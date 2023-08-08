@@ -16,7 +16,7 @@ function displayCompanies() {
         url: url,
         type: 'GET',
         success: function (response) {
-            // console.log(response);
+            // console.log(response, response.length);
 
             $.each(response, function (index, obj) {
 
@@ -94,12 +94,13 @@ function displayCompanies() {
             });
         },
         error: function (error) {
-            alert(`Redirecting to home page`);
-            // console.log(error);
-            // location.replace('/');
+            $('#loading').show();
+            setTimeout(() => window.location.replace(`/intern_profile/${$intId}`), 5000);
+
         },
         beforeSend: function () {
             $('#loading').show();
+            setTimeout(() => $('#loading').hide(), 6000)
         },
         complete: function () {
             $('#loading').hide();

@@ -1,143 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="Your Next Intern"
-		content="Your Next Intern is a web application built to aid the search for interns and internship by companies and students respectively">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-	<link rel="stylesheet" href="../static/styles/index.css">
-	<link rel="stylesheet" href="../static/styles/common.css">
-	<link rel="stylesheet" href="../static/styles/header.css">
-	<link rel="stylesheet" href="../static/styles/all_companies.css">
-	<link rel="icon" href="../static/images/yni_logo.png" />
-	<script async src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script type="module" defer src="../static/scripts/apply_to_company.js"></script>
-	<script type="module" defer src="../static/scripts/change_status.js"></script>
-
-	<title>Your Next Intern</title>
-</head>
-
-<body>
-	<!-- HEADER -->
-	<header class="header">
-
-		<!--LINKS-->
-		<nav class="nav-bar navbar navbar-expand-lg navbar-expand-md fixed-top">
-			<div class="container-fluid">
-				<a class="navbar-brand logo" href="{{ url_for('app_auth.go_home') }}">YNI</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsiblenav"
-					aria-controls="collapsiblenav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
-					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="{{ url_for('app_views.all_companies')}}">Companies</a></li>
-						<li class="nav-item"><a href="">Blog</a></li>
-						<li class="nav-item"><a href="">YNI Stories</a></li>
-
-						{% if current_user.is_authenticated %}
-						<li class="nav-item"><a href="{{ url_for('app_auth.logout') }}"> Logout</a></li>
-						<li class="nav-item"><a
-								href="{{ url_for('app_views.intern_profile',  intern_id=current_user.id, _external=True) }}">
-								Your profile</a></li>
-						{% else %}
-						<li class="nav-item"><a href="{{ url_for('app_auth.login') }}"> Sign In</a></li>
-						{% endif %}
-
-					</ul>
-				</div>
-
-			</div>
-
-		</nav>
-	</header>
-	<!-- Main Body -->
+{% extends 'base.html' %}
 
 
-	<div class="body-container">
-		<!-- <div id="loading" class="spinner-border text-success" role="status">
+{% block head %}
+<link rel="stylesheet" href="../static/styles/all_companies.css">
+{% endblock %}
+
+{% block title%} All Companies {% endblock %}
+<!-- Main Body -->
+
+{% block content %}
+<div class="body-container">
+	<!-- <div id="loading" class="spinner-border text-success" role="status">
 			<span class="visually-hidden">Loading...</span>
 		</div> -->
-		<div class="page-directory">
-			<div>
-				<h3>Companies on YNI</h3>
-			</div>
-			<div><a href="{{ url_for('app_views.open_companies')}}">Show open companies</a></div>
+	<div class="page-directory">
+		<div>
+			<h3>Companies on YNI</h3>
 		</div>
+		<div><a href="{{ url_for('app_views.open_companies')}}">Show open companies</a></div>
+	</div>
 
-		<!-- Companies section -->
-		<section class="companies">
+	<!-- Companies section -->
+	<section class="companies">
 
-			<table class="table table-hover table-bordered">
-				<caption>Only organizations whose application windows are open are listed</caption>
-				<thead class="table-dark">
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Company Name</th>
-						<th scope="col">Expertise</th>
-						<th scope="col">Website</th>
-						<th scope="col">Email</th>
-						<th scope="col">Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% set counter = 1 -%}
-					{% for company in companies %}
-					<tr>
-						<th scope="row">{{ counter + loop.index0 }}</th>
-						<td id="intern-name">{{ company.name }}</td>
-						<td id="intern-course">{{ company.specialization }}</td>
-						<td id="intern-school"> <a href="">{{ company.website }}</a></td>
-						<td id="intern-email">{{ company.email }}</td>
-						<td id="modal-popup">
-							<button type="button" data-button="{{ company.id }}"
-								class="company-info btn btn-outline-info">Apply</button>
-							<div class="popup">
-								<div class="popup-content">
-									<div>
-										<h2></h2>
-									</div>
-									<div>
-										<p>specialises in: <span class="expertise-item"></strong>
-										</p>
-									</div>
-									<div>
-										<p>find us @: <a href=""><span class="website-item"></span></a></p>
-									</div>
-									<div>Number of applicants: <span class="applicants-num"></span></div>
-									<div id="options-btn">
-										<button type="button" class=" close-modal btn btn-danger">Close</button>
-										<button type="button" data-button="{{ current_user.id }}"
-											class="apply-to btn btn-outline-success">Proceed</button>
-									</div>
-
+		<table class="table table-hover table-bordered">
+			<caption>Only organizations whose application windows are open are listed</caption>
+			<thead class="table-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Company Name</th>
+					<th scope="col">Expertise</th>
+					<th scope="col">Website</th>
+					<th scope="col">Email</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set counter = 1 -%}
+				{% for company in companies %}
+				<tr>
+					<th scope="row">{{ counter + loop.index0 }}</th>
+					<td id="intern-name">{{ company.name }}</td>
+					<td id="intern-course">{{ company.specialization }}</td>
+					<td id="intern-school"> <a href="">{{ company.website }}</a></td>
+					<td id="intern-email">{{ company.email }}</td>
+					<td id="modal-popup">
+						<button type="button" data-button="{{ company.id }}"
+							class="company-info btn btn-outline-info">Apply</button>
+						<div class="popup">
+							<div class="popup-content">
+								<div>
+									<h2></h2>
 								</div>
+								<div>
+									<p>specialises in: <span class="expertise-item"></strong>
+									</p>
+								</div>
+								<div>
+									<p>find us @: <a href=""><span class="website-item"></span></a></p>
+								</div>
+								<div>Number of applicants: <span class="applicants-num"></span></div>
+								<div id="options-btn">
+									<button type="button" class=" close-modal btn btn-danger">Close</button>
+									<button type="button" data-button="{{ current_user.id }}"
+										class="apply-to btn btn-outline-success">Proceed</button>
+								</div>
+
 							</div>
-						</td>
-					</tr>
-					{% endfor %}
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
 
-				</tbody>
-			</table>
-	</div>
+			</tbody>
+		</table>
+</div>
 
-	</section>
+</section>
 
-	</div>
+</div>
 
-	<!-- <footer class=" footer"></footer> -->
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-		integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-		crossorigin="anonymous"></script>
-
-</body>
-
-</html>
+{% endblock %}

@@ -1,18 +1,58 @@
 #!/usr/bin/python3
 """This module delivers authentication for a user"""
 from datetime import date, datetime
-from flask import render_template, url_for, render_template, request, redirect, flash, jsonify, abort, send_from_directory
+from flask import (
+    render_template,
+    url_for,
+    render_template,
+    request,
+    redirect,
+    flash,
+    abort, send_from_directory
+)
 from flask_login import login_required, current_user
+from functools import wraps
+# from models.admin import Admin
 from models.company import Company
 from models.intern import Intern
 import os
 import random
 from sqlalchemy import exc
 import string
+from typing import Callable
 from web_app.views import app_views
 from web_app.main_app import app, ALLOWED_EXTENSIONS
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import NotFound
 
+
+# def permission_required(admin_permission: bool) -> Callable:
+#     """returns a decorator function for the route"""
+#     def decorator(func: Callable) -> Callable:
+#         """decorates a function to check admin access"""
+#         @wraps(func)
+#         def decorated_function(*args, **kwargs) -> Callable:
+#             """Decorated function"""
+#             if not current_user.is_admin(admin_permission):
+#                 abort(403)
+#             return func(*args, **kwargs)
+#         return decorated_function
+#     return decorator
+
+
+# def admin_required(func: Callable):
+#     """checks admin permission"""
+#     return permission_required(True)(func)
+
+
+# @app_views.route("/admin", methods=['GET'])
+# @login_required
+# @admin_required
+# def admin():
+#     """
+#     Admin route
+#     """
+#     return render_template("admin.html")
 
 
 @app_views.route("/intern_profile/<intern_id>", methods=['GET'])
@@ -21,10 +61,11 @@ def intern_profile(intern_id):
     """ retrieve data for an intern profile """
     from models import storage
     if current_user.is_authenticated:
-        storage.get_user_id(Intern, intern_id)
-        return render_template("intern_profile.html", user=current_user)
-        
-        
+
+        user = storage.get_user_by_email(current_user.email)
+        user_class = user.to_dict()['__class__']
+        return render_template("intern_profile.html", user_class=user_class)
+
 
 @app_views.route("/all_companies", methods=['GET'])
 def all_companies():
@@ -41,10 +82,9 @@ def all_companies():
     `application_open` set to True
     """
     from models import storage
-    
+
     try:
         all_companies = storage.all(Company).values()
-    
 
         companies = sorted(all_companies, key=lambda k: k.name)
 
@@ -53,12 +93,15 @@ def all_companies():
         to redirect the user to the appropriate page
         """
         if current_user.is_authenticated:
-            user = storage.get_user_by_id(current_user.id)
+            user = storage.get_user_by_email(current_user.email)
             user_class = user.to_dict()['__class__']
 
             if user_class == 'Intern':
-                return render_template("auth_all_companies.html",
-                                    companies=companies)
+                return render_template("open_org.html",
+                                       companies=companies, user_class=user_class)
+            elif user_class == 'Company':
+                return render_template("all_companies.html",
+                                       companies=companies, user_class=user_class)
         return render_template("all_companies.html", companies=companies)
 
     except exc.SQLAlchemyError:
@@ -72,6 +115,20 @@ def open_companies():
     """ 
     route for all the companies whose application windows are open
     """
+    from models import storage
+
+    user = storage.get_user_by_email(current_user.email)
+    user_class = user.to_dict()['__class__']
+
+    if user_class == 'Intern':
+        return render_template("open_org.html",
+                               user_class=user_class)
+    elif user_class == 'Company':
+        all_companies = storage.all(Company).values()
+
+        companies = sorted(all_companies, key=lambda k: k.name)
+        return render_template("all_companies.html",
+                               companies=companies, user_class=user_class)
     return render_template("open_org.html")
 
 
@@ -80,12 +137,13 @@ def open_companies():
 def company_profile(org_id):
     """ Retrieve data for a company's profile """
     from models import storage
-    
+
     try:
         com_obj = storage.get(Company, org_id)
-        com_interns = sorted(com_obj.interns, key=lambda k: k.first_name) 
-        return render_template("org_profile.html", user=current_user,
-                                com_interns=com_interns)
+        user_class = com_obj.to_dict()['__class__']
+        com_interns = sorted(com_obj.interns, key=lambda k: k.first_name)
+        return render_template("org_profile.html", user_class=user_class,
+                               com_interns=com_interns)
     except exc.SQLAlchemyError:
         storage.rollback_session()
         abort(400)
@@ -99,18 +157,25 @@ def all_interns():
     try:
         all_interns = storage.all(Intern).values()
         interns = sorted(all_interns, key=lambda k: k.first_name)
+
+        if current_user.is_authenticated:
+            user = storage.get_user_by_email(current_user.email)
+            user_class = user.to_dict()['__class__']
+            return render_template("all_interns.html", interns=interns, user_class=user_class)
+
         return render_template("all_interns.html", interns=interns)
 
     except exc.SQLAlchemyError:
         storage.rollback_session()
         abort(400)
 
+
 @app_views.route("/intern_profile/<intern_id>/", methods=['POST'])
 @login_required
 def upload_image(intern_id):
     """ Route that handles the intern image upload """
     from models import storage
-    
+
     try:
         int_obj = storage.get(Intern, intern_id)
 
@@ -125,11 +190,11 @@ def upload_image(intern_id):
             if up_file.filename == '':
                 flash('No file selected')
                 return redirect(url_for('app_views.intern_profile', intern_id=current_user.id))
-            
+
             if not allowed_filename(up_file.filename):
                 flash('Allowed files are jpg, jpeg, png', category="error")
                 return redirect(url_for('app_views.intern_profile', intern_id=current_user.id))
-            
+
             if up_file and allowed_filename(up_file.filename):
                 filename = secure_filename(up_file.filename)
 
@@ -141,19 +206,21 @@ def upload_image(intern_id):
                 # generate random string file name
                 datetime_format = "%Y-%m-%dT%H:%M:%S"
                 curr_date = datetime.now().strftime(datetime_format)
-                
+
                 gen_str = string.ascii_letters + '12345678910'
-                rand_str = ''.join([random.choice(gen_str) for n in range(0, 30)])
+                rand_str = ''.join([random.choice(gen_str)
+                                   for n in range(0, 30)])
                 new_filename = "{}_{}{}".format(rand_str, curr_date, file_ext)
-                
+
                 # save the file with the new filename
-                file_path = os.path.join((app.config['UPLOAD_FOLDER']), new_filename)
+                file_path = os.path.join(
+                    (app.config['UPLOAD_FOLDER']), new_filename)
                 up_file.save(file_path)
                 int_obj.image_path = new_filename
                 int_obj.save()
                 flash('Image uploaded successfully', category='success')
                 return redirect(url_for('app_views.intern_profile', intern_id=current_user.id))
-        
+
     except (exc.SQLAlchemyError, FileExistsError, FileNotFoundError):
         storage.rollback_session()
         abort(400)
@@ -163,7 +230,11 @@ def upload_image(intern_id):
 @login_required
 def display_image(filename):
     """ Display image in user's profile """
-    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+    try:
+        return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+    except NotFound:
+        flash('Upload Failed')
+        return redirect(url_for('app_views.intern_profile', intern_id=current_user.id))
 
 
 def allowed_filename(filename: str) -> bool:

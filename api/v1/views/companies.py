@@ -21,34 +21,32 @@ def get_company(company_id):
             com_dict = com_obj.to_dict()
             int_list = [obj.to_dict() for obj in com_obj.interns]
             com_dict["interns"] = int_list
-                    
-            if request.method == 'GET':  
+
+            if request.method == 'GET':
                 return make_response(jsonify(com_dict), 200)
-            
+
             if request.method == 'PUT':
                 if not request.json:
                     return make_response(jsonify('Not a JSON'), 400)
-                
-                req_dict = request.get_json()
-                if 'application_open' not in req_dict:
-                    return make_response(jsonify('Empty request'), 400)
 
+                req_dict: dict = request.get_json()
+                if req_dict.get('application_open') is None:
+                    return make_response(jsonify('Empty request'), 400)
 
                 com_obj.application_open = req_dict.get('application_open')
                 com_obj.save()
                 com_dict = com_obj.to_dict()
                 int_list = [obj.to_dict() for obj in com_obj.interns]
                 com_dict["interns"] = int_list
-                      
+
                 return make_response(jsonify(com_obj.to_dict()), 200)
-                    
+
         except exc.SQLAlchemyError:
             storage.rollback_session()
             return make_response(jsonify('Request timeout or overload'), 408)
 
     abort(404)
-        
-    
+
 
 @app_views.route('/companies/<company_id>/interns/<intern_id>', methods=['POST', 'DELETE'])
 def link_intern_with_company(company_id, intern_id):
@@ -66,7 +64,7 @@ def link_intern_with_company(company_id, intern_id):
 
         if not intern_obj:
             abort(404)
-    
+
         if not com_obj:
             abort(404)
 
@@ -78,7 +76,7 @@ def link_intern_with_company(company_id, intern_id):
 
             if intern_obj in com_obj.interns:
                 return make_response(jsonify(True), 200)
-        
+
             com_obj.interns.append(intern_obj)
             storage.save()
             return make_response(jsonify(True), 201)
@@ -88,15 +86,14 @@ def link_intern_with_company(company_id, intern_id):
                 com_obj.interns.remove(intern_obj)
                 storage.save()
                 return make_response(jsonify({"status": "success"}), 200)
-    
+
             return make_response(jsonify({"status": "not found"}), 204)
 
-        
     except exc.SQLAlchemyError:
         storage.rollback_session()
         return make_response(jsonify('Request timeout'), 408)
 
-    
+
 @app_views.route("/all_companies", methods=['GET'])
 def open_companies():
     """ An endpoint that returns a `JSON` list of companies
@@ -104,7 +101,7 @@ def open_companies():
     try:
         all_coms = storage.all("Company").values()
         sorted_coms = sorted(all_coms, key=lambda k: k.name)
-        
+
         return_list = []
         for com in sorted_coms:
             com_dict = com.to_dict()

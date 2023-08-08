@@ -1,152 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="Your Next Intern"
-		content="Your Next Intern is a web application built to aid the search for interns and internship by companies and students respectively">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+{% block head %}
+<link rel="stylesheet" href="../static/styles/intern_profile.css">
+{% endblock %}
 
-	<!-- <link rel="stylesheet" href="../static/styles/index.css"> -->
-	<link rel="stylesheet" href="../static/styles/common.css">
-	<link rel="stylesheet" href="../static/styles/header.css">
-	<link rel="stylesheet" href="../static/styles/intern_profile.css">
-	<link rel="icon" href="../static/images/yni_logo.png" />
-	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script type="module" defer src="../static/scripts/intern_companies.js"></script>
-	<script defer src="../static/scripts/upload_image.js"></script>
-	<title>Your Next Intern</title>
-</head>
+{% block script %}
+<script type="module" defer src="../static/scripts/intern_companies.js"></script>
+<script type="module" defer src="../static/scripts/upload_image.js"></script>
+{% endblock %}
 
-<body>
-	<!-- HEADER -->
-	<header class="header">
+<!-- Main Body -->
+{% block title%} Intern Profile {% endblock %}
 
-		<!--LINKS-->
-		<nav class="nav-bar navbar navbar-expand-lg navbar-expand-md fixed-top">
-			<div class="container-fluid">
-				<a class="navbar-brand logo" href="{{ url_for('app_auth.go_home') }}">YNI</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsiblenav"
-					aria-controls="collapsiblenav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
-					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="{{ url_for('app_views.all_interns') }}">Interns</a></li>
-						<li class="nav-item"><a href="{{ url_for('app_views.all_companies')}}">Companies</a></li>
-						<li class="nav-item"><a href="">Blog</a></li>
-						<li class="nav-item"><a href="">YNI Stories</a></li>
+{% block content %}
+<div class="body-container">
+	<section data-id="{{ current_user.id }}" class="intern-detail">
 
-						<li class="nav-item"><a href="{{ url_for('app_auth.logout') }}"> Logout</a></li>
-						<li class="nav-item"><a
-								href="{{ url_for('app_views.intern_profile',  intern_id=current_user.id) }}">
-								Profile</a></li>
+		<article class="intern-pic">
+			{% if current_user.image_path %}
+			<div><img src="{{ url_for('app_views.display_image', filename=current_user.image_path) }}"
+					alt="User profile image"></div>
+			{% else %}
+			{% if current_user.gender == 'Male' %}
+			<div><img src="../static/images/default_user_image.png" alt="User profile image"></div>
+			{% elif current_user.gender == 'Female' %}
+			<div><img src="../static/images/default_female_img.png" alt="User profile image"></div>
+			{% endif %}
+			{% endif %}
+			<!-- <a class="upload-button" href="/">Click to upload</a> -->
 
-					</ul>
-				</div>
+			<button class="upload-button" type="button">Change avatar</button>
+
+		</article>
+		<div class="popup">
+			<div class="popup-content">
+				<form class="upload-img" method="post" enctype="multipart/form-data"
+					action="{{ url_for('app_views.upload_image', intern_id=current_user.id) }}">
+					<label for="user_photo">Choose a profile picture (max 10MB):</label>
+					<input type="file" class="form-control" id="user_photo" name="user_photo">
+
+					<div>
+						<button type="submit" class="submit-file btn btn-success" id="submit-file">Upload</button>
+						<button type="button" class="cancel btn btn-outline-danger">Cancel</button>
+					</div>
+				</form>
+
 
 			</div>
-
-		</nav>
-	</header>
-	{% with messages = get_flashed_messages(with_categories=true) %}
-	{% if messages %}
-	{% for category, message in messages %}
-	{% if category == 'error' %}
-	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		{{ message }}
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	</div>
-	{% else %}
-	<div class="alert alert-success alert-dismissible fade show" role="alert">
-		{{ message }}
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	</div>
-	{% endif %}
-	{% endfor %}
-	{% endif %}
-	{% endwith %}
-	<!-- Main Body -->
-
-	<div class="body-container">
-		<section data-id="{{ current_user.id }}" class="intern-detail">
-
-			<article class="intern-pic">
-				{% if current_user.image_path %}
-				<div><img src="{{ url_for('app_views.display_image', filename=current_user.image_path) }}"
-						alt="User profile image"></div>
-				{% else %}
-				{% if current_user.gender == 'Male' %}
-				<div><img src="../static/images/default_user_image.png" alt="User profile image"></div>
-				{% elif current_user.gender == 'Female' %}
-				<div><img src="../static/images/default_female_img.png" alt="User profile image"></div>
-				{% endif %}
-				{% endif %}
-				<!-- <a class="upload-button" href="/">Click to upload</a> -->
-
-				<button class="upload-button" type="button">Change avatar</button>
-
-			</article>
-			<div class="popup">
-				<div class="popup-content">
-					<form class="upload-img" method="post" enctype="multipart/form-data"
-						action="{{ url_for('app_views.upload_image', intern_id=current_user.id) }}">
-						<label for="user_photo">Choose a profile picture (max 10MB):</label>
-						<input type="file" class="form-control" id="user_photo" name="user_photo">
-
-						<div>
-							<button type="submit" class="submit-file btn btn-success" id="submit-file">Upload</button>
-							<button type="button" class="cancel btn btn-outline-danger">Cancel</button>
-						</div>
-					</form>
-
-
-				</div>
-			</div>
-
-			<article class="intern-data">
-				<div>
-					<h3>{{ current_user.first_name }} {{ current_user.last_name }}</h3>
-				</div>
-				<div>
-					<p><strong>Studies</strong>: {{ current_user.course }}</p>
-				</div>
-				<div>
-					<p id="intern-school"><strong>@</strong>: {{ current_user.school }}</p>
-				</div>
-				<div id="intern-contact">
-					<span><strong> email: </strong>{{ current_user.email }}</span><span><strong>phone:
-						</strong>{{current_user. phone}}</span>
-				</div>
-				<div class="apply-btn">
-					<a href="{{ url_for('app_views.all_companies')}}"><button type="button" class="btn btn-info">Apply
-							to companies</button></a>
-				</div>
-			</article>
-
-
-		</section>
-		<div class="company-data">
-			<div class="companies-head">
-				<h3>Companies You have applied to</h3>
-			</div>
-			<section class="companies-list">
-
-			</section>
 		</div>
 
+		<article class="intern-data">
+			<div>
+				<h3>{{ current_user.first_name }} {{ current_user.last_name }}</h3>
+			</div>
+			<div>
+				<p><strong>Studies</strong>: {{ current_user.course }}</p>
+			</div>
+			<div>
+				<p id="intern-school"><strong>@</strong>: {{ current_user.school }}</p>
+			</div>
+			<div id="intern-contact">
+				<span><strong> email: </strong>{{ current_user.email }}</span><span><strong>phone:
+					</strong>{{current_user. phone}}</span>
+			</div>
+			<div class="apply-btn">
+				<a href="{{ url_for('app_views.open_companies')}}"><button type="button" class="btn btn-info">Apply
+						to companies</button></a>
+			</div>
+		</article>
+
+
+	</section>
+	<div class="company-data">
+		<div class="companies-head">
+			<h3>Companies You have applied to</h3>
+		</div>
+		<section class="companies-list">
+
+		</section>
 	</div>
 
-	<!-- <footer class="footer"></footer> -->
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-		integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-		crossorigin="anonymous"></script>
-</body>
+</div>
 
-</html>
+{% endblock %}

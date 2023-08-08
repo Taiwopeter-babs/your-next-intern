@@ -2,6 +2,7 @@
 """This module contains the DBStorage class"""
 from datetime import date
 from dotenv import load_dotenv
+# from models.admin import Admin
 from models.intern import Intern
 from models.company import Company, company_intern
 from models.school import School
@@ -10,10 +11,11 @@ import os
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-# load environment variables 
+# load environment variables
 load_dotenv()
 
-classes = {"Intern": Intern, "Company": Company, "School": School}
+classes = {"Intern": Intern, "Company": Company,
+           "School": School}
 
 
 class DBStorage:
@@ -126,10 +128,10 @@ class DBStorage:
         Session = scoped_session(session_factory)
         self.__session = Session()
 
-    def close():
+    def close(self):
         """closes the current database session"""
         self.__session.close()
-    
+
     def rollback_session(self):
         """ rollback session """
         self.__session.rollback()
@@ -188,23 +190,36 @@ class DBStorage:
                     int_list = [obj.to_dict() for obj in company.interns]
                     company_dict = company.to_dict()
                     company_dict["interns"] = int_list
-                    company_dict["date_applied"] = date_applied.strftime(date_form)
+                    company_dict["date_applied"] = date_applied.strftime(
+                        date_form)
                     list_companies.append(company_dict)
 
                 return list_companies
             return None
-            
+
         return None
 
-    def get_user_by_email(self, cls_name, email: str):
+    def get_user_by_email(self, email: str, cls_name=None):
         """ Get a user by email """
-        if type(cls_name) is str:
-            cls_name = classes.get(cls_name)
-        user = self.__session.query(cls_name).filter_by(email=email).first()
-        if user:
-            return user
+        if cls_name:
+            if type(cls_name) is str:
+                cls_name = classes.get(cls_name)
+            user = self.__session.query(
+                cls_name).filter_by(email=email).first()
+            if user:
+                return user
+            return None
+
+        # find email match across tables
+        for class_name in classes:
+            cls_name = classes.get(class_name)
+            user = self.__session.query(
+                cls_name).filter_by(email=email).first()
+            if user:
+                return user
+
         return None
-    
+
     def get_user_id(self, cls_name, user_id: str):
         """ Get a user id """
         if type(cls_name) is str:
@@ -222,10 +237,10 @@ class DBStorage:
             if user_id == obj.split(".")[1]:
                 return all_objs.get(obj)
         return None
-    
+
     def get_school_id(self, sch_name: str) -> str:
         """ Returns the school id of school_name from the database storage."""
-        
+
         stmt = select(School.id).where(School.name == sch_name)
         sch_id = self.__session.scalars(stmt).all()
 

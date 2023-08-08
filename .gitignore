@@ -1,6 +1,10 @@
 **/.env
-**/__pycache__
 *.json
 helpers/
-.vscode
+.vscode/
+**/__pycache__/
+# ignore admin related files
+**admin**
 # Ignore API and application starters
+start*
+store*

@@ -1,129 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="Your Next Intern"
-		content="Your Next Intern is a web application built to aid the search for interns and internship by companies and students respectively">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% block script %}
+<script type="module" defer src="../static/scripts/intern_modal.js"></script>
+{% endblock %}
 
-	<link rel="stylesheet" href="../static/styles/index.css">
-	<link rel="stylesheet" href="../static/styles/common.css">
-	<link rel="stylesheet" href="../static/styles/header.css">
-	<link rel="stylesheet" href="../static/styles/all_interns.css">
-	<link rel="icon" href="../static/images/yni_logo.png" />
-	<script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script defer src="../static/scripts/intern_modal.js"></script>
-	<title>Your Next Intern</title>
-</head>
+{% block head %}
+<link rel="stylesheet" href="../static/styles/all_interns.css">
+{% endblock %}
 
-<body>
-	<!-- HEADER -->
-	<header class="header">
 
-		<!--LINKS-->
-		<nav class="nav-bar navbar navbar-expand-lg navbar-expand-md fixed-top">
-			<div class="container-fluid">
-				<a class="navbar-brand logo" href="{{ url_for('app_auth.go_home') }}">YNI</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsiblenav"
-					aria-controls="collapsiblenav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="navbar-collapse collapse navigation" id="collapsiblenav">
-					<ul class="nav-links navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a href="index.html">About YNI</a></li>
-						<li class="nav-item"><a href="{{ url_for('app_views.all_companies') }}">Companies</a></li>
-						<li class="nav-item"><a href="">Blog</a></li>
-						<li class="nav-item"><a href="">YNI Stories</a></li>
+<!-- Main Body -->
+{% block title%} Interns {% endblock %}
+{% block content %}
+<div class="body-container">
+	<h3>Interns using YNI</h3>
+	<section class="interns">
 
-						{% if current_user.is_authenticated %}
-						<li class="nav-item"><a href="{{ url_for('app_auth.logout') }}"> Logout</a></li>
-						<li class="nav-item"><a
-								href="{{ url_for('app_views.intern_profile',  intern_id=current_user.id, _external=True) }}">
-								Your profile</a></li>
-						{% else %}
-						<li class="nav-item"><a href="{{ url_for('app_auth.login') }}"> Sign In</a></li>
-						{% endif %}
-
-					</ul>
-				</div>
-
-			</div>
-
-		</nav>
-	</header>
-	<!-- Main Body -->
-
-	<div class="body-container">
-		<h3>Interns using YNI</h3>
-		<section class="interns">
-
-			<table class="table table-hover table-bordered">
-				<caption>All Interns</caption>
-				<thead class="table-dark">
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Full Name</th>
-						<th scope="col">Course</th>
-						<th scope="col">School</th>
-						<th scope="col">Email</th>
-						<th scope="col">Show intern</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% set counter = 1 -%}
-					{% for intern in interns %}
-					<tr>
-						<th scope="row">{{ counter + loop.index0 }}</th>
-						<td id="intern-name">{{ intern.first_name }} {{ intern.last_name }}</td>
-						<td id="intern-course">{{ intern.course }}</td>
-						<td id="intern-school">{{ intern.school }}</td>
-						<td id="intern-email">{{ intern.email }}</td>
-						<td>
-							<button type="button" data-button="{{ intern.id }}"
-								class="intern-info btn btn-info">Info</button>
-							<div class="popup">
-								<div class="popup-content">
-									<div>
-										<h2></h2>
-									</div>
-									<div>
-										<p>Studies: <span class="course-item"></strong>
-										</p>
-									</div>
-									<div>
-										<p>@: <span class="school-item"></span></p>
-									</div>
-									<div>Number of Companies applied to: <span class="company-num"></span></div>
-									<div>
-										<button type="button" class=" close-modal btn btn-success"">Close</button>
-									</div>
-									
+		<table class="table table-hover table-bordered">
+			<thead class="table-dark">
+				<tr>
+					<!-- <th scope="col">#</th> -->
+					<th scope="col">Full Name</th>
+					<th class="hide-col" scope="col">Course</th>
+					<th class="hide-col" scope="col">School</th>
+					<th scope="col">Email</th>
+					<th scope="col">Show intern</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set counter = 1 -%}
+				{% for intern in interns %}
+				<tr>
+					<!-- <th scope="row">{{ counter + loop.index0 }}</th> -->
+					<td id="intern-name">{{ intern.first_name }} {{ intern.last_name }}</td>
+					<td class="hide-col" id="intern-course">{{ intern.course }}</td>
+					<td class="hide-col" id="intern-school">{{ intern.school }}</td>
+					<td id="intern-email">{{ intern.email }}</td>
+					<td>
+						<button type="button" data-button="{{ intern.id }}" class="intern-info btn btn-info">Info</button>
+						<div class="popup">
+							<div class="popup-content">
+								<div>
+									<h2></h2>
 								</div>
+								<div>
+									<p>Studies: <span class="course-item"></strong>
+									</p>
+								</div>
+								<div>
+									<p>@: <span class="school-item"></span></p>
+								</div>
+								<div>Number of Companies applied to: <span class="company-num"></span></div>
+								<div>
+									<button type="button" class=" close-modal btn btn-success">Close</button>
+								</div>
+
 							</div>
-						</td>
-					</tr>
-					{% endfor %}
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
 
-				</tbody>
-			</table>
-	</div>
+			</tbody>
+		</table>
+</div>
 
-	</section>
+</section>
 
-	</div>
-
-	<!-- <footer class=" footer"></footer> -->
-											<script
-												src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-												integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-												crossorigin="anonymous"></script>
-											<script
-												src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-												integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-												crossorigin="anonymous"></script>
-</body>
-
-</html>
+</div>
+{% endblock %}

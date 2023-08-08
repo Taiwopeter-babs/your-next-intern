@@ -110,6 +110,12 @@ section.interns {
     font-family: 'Poltawski Nowy';
 }
 
+div.list-head {
+    width: 100%;
+    margin: 0 auto;
+    border: 10px soild black;
+}
+
 /* ====== Table ====== */
 tbody tr td:nth-of-type(-n+2) {
     text-transform: capitalize;
@@ -118,5 +124,6 @@ tbody tr td:nth-of-type(-n+2) {
 tbody tr:hover {
     color: white;
     background: var(--main-radial);
+    cursor: pointer;
 
 }

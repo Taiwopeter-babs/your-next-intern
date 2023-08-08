@@ -389,12 +389,12 @@ article.contact>div {
 
 	.join-call div:first-child {
 		border-right: none;
-		border-bottom: 1px solid black;
+		/* border-bottom: 1px solid black; */
 	}
 
 	.join-call div:last-child {
 		margin-top: 20px;
-		border-bottom: 1px solid black;
+		/* border-bottom: 1px solid black; */
 	}
 
 	.join-call p {
@@ -403,6 +403,13 @@ article.contact>div {
 
 	.join-call a {
 		width: 100%;
+	}
+
+	.join-call .login-call>p:first-child {
+		width: 100%;
+		font-size: 14px;
+		/* border: 1px solid black; */
+		text-align: center;
 	}
 
 	section.dev {

@@ -25,7 +25,7 @@ class BaseModel:
     other classes of the package inherits from
     """
     if models.storage_type == "db":
-        id = Column(String(50), primary_key=True, nullable=False)
+        id = Column(String(60), primary_key=True, nullable=False)
         created_at = Column(DateTime, default=datetime.utcnow())
         updated_at = Column(DateTime, default=datetime.utcnow())
 
@@ -84,12 +84,10 @@ class BaseModel:
         if type(self).__name__ == 'Company':
             interns = [intern.id for intern in self.interns]
             new_dict['interns'] = interns
-        
+
         if type(self).__name__ == 'Intern':
             companies = [com.id for com in self.companies]
             new_dict['companies'] = companies
-
-            
 
         str_created = self.created_at.strftime(time_format)
         str_updated = self.updated_at.strftime(time_format)
@@ -109,6 +107,15 @@ class BaseModel:
                 del new_dict["password"]
 
         return new_dict
+
+    def validate_password(self, input_password):
+        """ Validates password """
+        hashed = hashlib.sha256(input_password.encode('utf-8')).hexdigest()
+        return (hashed == self.password)
+
+    def is_admin(self, admin_permission: bool) -> bool:
+        """Checks if a user is an admin"""
+        return admin_permission is True
 
     def __str__(self):
         """returns a string representation of the object"""

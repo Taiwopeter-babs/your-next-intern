@@ -88,3 +88,10 @@ input.valid,
 datalist.valid {
     border: 3px solid green;
 }
+
+@media screen and (max-width: 767px) {
+
+    .section-heading h2 {
+        font-size: 24px;
+    }
+}

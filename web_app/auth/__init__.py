@@ -4,3 +4,4 @@ from flask import Blueprint
 
 app_auth = Blueprint("app_auth", __name__, url_prefix="/")
 from web_app.auth.auth_user import *
+from web_app.auth.auth_admin import *

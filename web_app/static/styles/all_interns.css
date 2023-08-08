@@ -23,7 +23,7 @@ h3 {
 /* ======= Company's interns ========*/
 section.interns {
     width: 100%;
-    max-width: fit-content;
+    /* max-width: fit-content; */
     margin: 10px auto;
     /* border: 1px solid black; */
 }
@@ -47,7 +47,7 @@ section.interns {
     border-radius: 3px;
     background: #fff;
     position: relative;
-    border: 3px solid black;
+    /* border: 3px solid black; */
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
@@ -66,4 +66,38 @@ section.interns {
 span.course-item {
     font-size: 1.3rem;
     font-weight: 800;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td,
+th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+    .body-container>h3 {
+        font-size: 24px;
+    }
+
+    td.hide-col,
+    th.hide-col {
+        display: none;
+        width: 0;
+        height: 0;
+        opacity: 0;
+        visibility: collapse;
+    }
+
+    td {
+        border: none;
+        font-size: 14px;
+    }
 }

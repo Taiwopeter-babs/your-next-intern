@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This module delivers authentication for a user"""
 from datetime import date
-from flask import render_template, url_for, render_template, redirect, request, make_response, flash, jsonify
+from flask import render_template, url_for, render_template, redirect, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from models.intern import Intern
 from models.company import Company
@@ -14,14 +14,18 @@ from werkzeug.exceptions import HTTPException
 # email regex pattern
 pattern = '[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'
 
+
 @app_auth.route("/")
 def go_home():
-    # choose which route to direct the intern to depending
-    # on the class name - see index.html
+    """ redirect to home page """
+
+    from models import storage
+
     if current_user.is_authenticated:
-        from models import storage
-        user = storage.get_user_by_id(current_user.id)
+
+        user = storage.get_user_by_email(current_user.email)
         user_class = user.to_dict()['__class__']
+
         return render_template("index.html", user_class=user_class)
 
     return render_template("index.html")
@@ -36,8 +40,8 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        intern = storage.get_user_by_email("Intern", email)
-        company = storage.get_user_by_email("Company", email)
+        intern = storage.get_user_by_email(email, "Intern")
+        company = storage.get_user_by_email(email, "Company")
         if intern:
             if intern.validate_password(password):
                 login_user(intern, remember=True)
@@ -48,14 +52,13 @@ def login():
                     next = url_for('app_auth.go_home')
                 flash('Login successful', category='success')
                 return redirect(next)
-                
+
             else:
                 flash('Incorrect email or password', category='error')
                 return redirect(url_for('app_auth.login'))
 
         if company:
             if company.validate_password(password):
-                # flash("Login successful", category='success')
                 login_user(company, remember=True)
 
                 # return client to requested page
@@ -64,13 +67,13 @@ def login():
                     next = url_for('app_auth.go_home')
                 flash('Login successful', category='success')
                 return redirect(next)
-                
+
             else:
                 flash('Incorrect email or password', category='error')
                 return redirect(url_for('app_auth.login'))
 
         else:
-            flash("Email does not exist", category='error')
+            flash("Account does not exist. Please sign up", category='error')
 
     return render_template('login.html', user=current_user)
 
@@ -114,7 +117,7 @@ def intern_signup():
             flash('Please choose a school', category='error')
             return render_template('intern_signup.html', schools=schools)
 
-        # check if the email is already in use     
+        # check if the email is already in use
         check_exists_email = storage.get_user_by_email(Intern, email)
         if check_exists_email:
             flash('Email already in use', category='error')
@@ -126,7 +129,7 @@ def intern_signup():
             flash('Email must follow this pattern \'example@something.com\'',
                   category='error')
             return render_template('intern_signup.html', schools=schools)
-        
+
         # check phone pattern
         phone_pattern = re.compile(r'(\d{3,5})\D*(\d{2})\D*(\d{3})\D*(\d{3})$')
         phone_match = phone_pattern.search(phone).groups()
@@ -134,7 +137,7 @@ def intern_signup():
             storage.rollback_session()
             flash('Phone must follow the pattern in the input form')
             return render_template('intern_signup.html', schools=schools)
-        
+
         # check password equality
         if len(password1) < 8:
             flash('Password too short', category='error')
@@ -143,16 +146,16 @@ def intern_signup():
             storage.rollback_session()
             flash('passwords do not match', category='error')
             return render_template('intern_signup.html', schools=schools)
-        
+
         data = {'first_name': first_name, 'gender': gender, 'last_name': last_name,
                 'birthday': date.fromisoformat(birthday), 'school': school,
                 'course': course, 'address': address, 'phone': phone,
                 ' preferred_organization': preferred_organization,
                 'email': email, 'password': password1, 'school_id': sch_id}
-        
+
         intern = Intern(**data)
         try:
-            intern.save()     
+            intern.save()
         except exc.SQLAlchemyError:
             storage.rollback_session()
             flash('Please fill all required fields', category='error')
@@ -160,7 +163,7 @@ def intern_signup():
 
         flash('Registration successful! Please login.', category='success')
         return redirect(url_for('app_auth.login'))
-        
+
     return render_template('intern_signup.html', schools=schools)
 
 
@@ -189,8 +192,7 @@ def org_signup():
             flash('Email must follow this pattern \'example@something.com\'',
                   category='error')
             return render_template('org_signup.html')
-        
-        
+
         if len(password1) < 8:
             flash('Password too short', category='error')
             return render_template('org_signup.html')
@@ -198,11 +200,11 @@ def org_signup():
             storage.rollback_session()
             flash('passwords do not match', category='error')
             return render_template('org_signup.html')
-        
+
         data = {'name': name, 'specialization': specialization,
                 'available_slots': available_slots, 'address': address,
                 'email': email, 'password': password1, 'website': website}
-        
+
         company = Company(**data)
         try:
             company.save()
@@ -213,5 +215,5 @@ def org_signup():
 
         flash('Registration successful! Please login.', category='success')
         return redirect(url_for('app_auth.login'))
-        
+
     return render_template('org_signup.html')
