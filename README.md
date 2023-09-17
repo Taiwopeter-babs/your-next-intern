@@ -61,7 +61,7 @@ Press CTRL+C to quit
 ```
 $ ./start_api api.v1.app
 * Serving Flask app 'app' (lazy loading)
- * Environment: production
+ * Environment: production.
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: on
