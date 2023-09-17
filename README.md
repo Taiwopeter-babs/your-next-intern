@@ -13,7 +13,7 @@
 
 ## Introduction
 
-YNI is a web application built to ease the process of seeking for internship positions by undergraduates in Nigerian Universities. It aims to bridge the gap between prospective interns and organizations looking to train/equip the next generation of talents.
+YNI is a web application built to ease the process of seeking for internship positions by undergraduates in Nigerian Universities and people with great talents. It aims to bridge the gap between prospective interns and organizations looking to train/equip the next generation of talents.
 
 Users , interns and organizations, will find a welcome user experience. Organizations can activate and deactivate their application window, and they can also monitor the number of applicants on their profiles. Interns can apply to as many companies as possible, given that the application window of the company is open, and they can also apply to companies or cancel their application to companies, all with the click of a button. 
 
