@@ -17,7 +17,7 @@ YNI is a web application built to ease the process of seeking for internship pos
 
 Users , interns and organizations, will find a welcome user experience. Organizations can activate and deactivate their application window, and they can also monitor the number of applicants on their profiles. Interns can apply to as many companies as possible, given that the application window of the company is open, and they can also apply to companies or cancel their application to companies, all with the click of a button. 
 
-YNI was built with jQuery, a Javascript library and Flask, a Python framework.
+Your Next Intern was built with jQuery, a Javascript library and Flask, a Python framework.
 
 - jQuery was used for the client-side functionality - dynamic rendering of HTML elements and AJAX (Asynchronous Javascript And XML) was used to query the API endpoints on the server.
 
