@@ -158,6 +158,7 @@ GET /all_companies - retrieves all companies/organizations
 ## Authors
 - Taiwo Babalola [Linkedin](www.linkedin.com/in/taiwo-babalola) [Twitter](https://twitter.com/realtaiwo_peter)
 - Henry Oworu [Linkedin] (www.linkedin.com/in/femi-oworu-6481801b) [Twitter] (twitter.com/phemsie)
+- Soso Oloju [LinkedIn] (https://www.linkedin.com/in/soloju) [Twitter] (https://twitter.com/soso_benzene)
 
 
 ## Reach Out
